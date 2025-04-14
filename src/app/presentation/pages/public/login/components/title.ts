@@ -4,8 +4,8 @@ import gsap from 'gsap';
   selector: 'title-login',
   imports: [],
   template: `
-    <section class=" my-12">
-      <div class="flex text-6xl gap-2 font-bold">
+    <section class=" my-4 flex flex-col justify-center items-center">
+      <div class="flex text-4xl gap-2 font-normal text-center">
         <p id="1">Iniciar</p>
         <p id="2">Sesión</p>
       </div>
@@ -22,12 +22,11 @@ export class TitleLoginComponent implements OnInit {
     this.timeLine = gsap.timeline();
   }
   ngOnInit(): void {
-    const container = this.el.nativeElement.querySelector('section');
     const elements = this.el.nativeElement.querySelectorAll('p');
     this.timeLine.from(elements[0], {
       opacity: 0,
       y: 50,
-      duration: 1,
+      duration: 0.5,
       ease: 'power2.out',
     });
     this.timeLine.from(
@@ -35,7 +34,7 @@ export class TitleLoginComponent implements OnInit {
       {
         opacity: 0,
         y: 50,
-        duration: 1,
+        duration: 0.8,
         ease: 'power2.out',
       },
       '-=0.5'

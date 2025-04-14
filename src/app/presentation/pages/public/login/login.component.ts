@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { FileIcon } from 'lucide-angular';
 import { ButtonComponent } from '../../../shared/ui/button';
 import { GoogleIconComponent } from '../../../shared/ui/icons';
 import { TitleLoginComponent } from './components/title';
 import { BackgroundPathsComponent } from '../../../shared/backgraund';
-import { InputComponent } from '../../../shared/ui/input';
-import { TabContainerComponent } from '../../../shared/ui/tab';
-import { CheckboxComponent } from '../../../shared/ui/check';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import gsap from 'gsap';
+
+import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-login',
   imports: [
@@ -15,70 +15,80 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
     GoogleIconComponent,
     TitleLoginComponent,
     BackgroundPathsComponent,
-    InputComponent,
-    TabContainerComponent,
-    CheckboxComponent,
     ReactiveFormsModule,
+    CommonModule,
   ],
   template: `
-    <main class="grid grid-cols-2 w-full h-screen overflow-hidden ">
-      <article
-        class="relative -skew-x-6 transform scale-110 -translate-x-2 bg-black"
-      >
-        <h2 class="font-bold 4xl text-white absolute top-4 left-4 z-10">
-          Acceda a servicios de GAMC con una sola cuenta
+    <main class="w-full h-screen overflow-hidden grid grid-cols-[600px_1fr]">
+      <section class="flex justify-center items-center flex-col flex-1 p-8 ">
+        <title-login />
+        <form action="" class="mx-auto w-[70%]">
+          <app-button
+            [type]="'submit'"
+            [variant]="'olther'"
+            class="w-full"
+            (onClick)="onSubmit()"
+          >
+            <app-google-icon [size]="24" />
+            Iniciar secíon con google
+          </app-button>
+          <div
+            class="w-full relative flex justify-center items-center h-[0.4px] bg-gray-400 my-4"
+          >
+            <p class="absolute bg-white px-2 text-xs">O</p>
+          </div>
+          <app-button
+            [type]="'submit'"
+            [variant]="'olther'"
+            class="w-full"
+            (onClick)="onSubmit()"
+          >
+            Continuar con Email y password
+          </app-button>
+          <div
+            class="w-full relative flex justify-center items-center h-[0.4px] bg-gray-400 my-4"
+          >
+            <p class="absolute bg-white px-2 text-xs">O</p>
+          </div>
+          <app-button
+            [type]="'submit'"
+            [variant]="'olther'"
+            class="w-full"
+            (onClick)="onSubmit()"
+          >
+            Continuar con ci y password
+          </app-button>
+        </form>
+      </section>
+      <article class="relative  bg-slate-900">
+        <h2 class="font-bold 4xl text-white ">
+          <!-- Acceda a servicios de GAMC con una sola cuenta -->
         </h2>
-        <div class="skew-x-6 transform w-full h-full relative">
+        <div class=" transform w-full h-full relative">
           <div class="absolute inset-0">
             <background-paths />
           </div>
         </div>
       </article>
-      <section class="flex justify-center items-center flex-col w-full">
-        <title-login />
-        <form class="flex w-1/2 justify-center items-center flex-col gap-4">
-          <app-button [type]="'button'" [variant]="'secondary'" class="w-full">
-            <app-google-icon />
-            Iniciar sesión con Google
-          </app-button>
-          <app-tab-container
-            [tabs]="tabs"
-            [selectedTab]="tabs[0]"
-            (tabChange)="onTabChange($event)"
-            class="w-full"
-          />
-          <app-input label="Email" type="email" id="email" class="w-full" />
-          <app-input
-            label="Password"
-            type="password"
-            id="password"
-            class="w-full"
-          />
-          <app-checkbox class="w-full" [formControl]="termsControl"
-            >Aceptar terminos y condiciones</app-checkbox
-          >
-
-          <app-button [type]="'submit'" [variant]="'primary'" class="w-full">
-            Iniciar sesión
-          </app-button>
-        </form>
-      </section>
     </main>
   `,
   standalone: true,
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   readonly FileIcon = FileIcon;
-  handleClick(event: Event) {
-    console.log('click', event);
+  private timeLine: gsap.core.Timeline;
+  constructor(private element: ElementRef) {
+    this.timeLine = gsap.timeline();
   }
-  termsControl = new FormControl(false);
-  tabs = [
-    { id: 1, label: 'Credenciales' },
-    { id: 2, label: 'Cedula de indentidad' },
-  ];
 
-  onTabChange(event: any) {
-    console.log('tab change');
+  onSubmit() {}
+  ngOnInit(): void {
+    const form = this.element.nativeElement.querySelector('form');
+    this.timeLine.from(form, {
+      opacity: 0,
+      y: 80,
+      duration: 0.5,
+      ease: 'power2.out',
+    });
   }
 }
