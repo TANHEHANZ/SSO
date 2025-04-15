@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FileIcon } from 'lucide-angular';
 import { ButtonComponent } from '../../../shared/ui/button';
 import { GoogleIconComponent } from '../../../shared/ui/icons';
@@ -8,6 +14,14 @@ import gsap from 'gsap';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import {
+  Bento1Component,
+  Bento2Component,
+  Bento3Component,
+  Bento4Component,
+  Bento5Component,
+} from './components/bento';
+import { CargaComponent } from './components/carga';
 @Component({
   selector: 'app-login',
   imports: [
@@ -17,58 +31,73 @@ import { CommonModule } from '@angular/common';
     BackgroundPathsComponent,
     ReactiveFormsModule,
     CommonModule,
+    Bento1Component,
+    Bento2Component,
+    Bento3Component,
+    Bento4Component,
+    Bento5Component,
+    CargaComponent,
   ],
   template: `
+    <carga-inicial />
     <main class="w-full h-screen overflow-hidden grid grid-cols-[600px_1fr]">
-      <section class="flex justify-center items-center flex-col flex-1 p-8 ">
-        <title-login />
-        <form action="" class="mx-auto w-[70%]">
-          <app-button
-            [type]="'submit'"
-            [variant]="'olther'"
-            class="w-full"
-            (onClick)="onSubmit()"
+      <section
+        class="flex justify-center items-center flex-col flex-1 p-8 relative"
+      >
+        <background-paths />
+
+        <article
+          class="w-full h-full flex justify-center items-center flex-col"
+        >
+          <title-login />
+          <form
+            action=""
+            class="mx-auto w-[70%] flex flex-col justify-center items-center "
           >
-            <app-google-icon [size]="24" />
-            Iniciar secíon con google
-          </app-button>
-          <div
-            class="w-full relative flex justify-center items-center h-[0.4px] bg-gray-400 my-4"
-          >
-            <p class="absolute bg-white px-2 text-xs">O</p>
-          </div>
-          <app-button
-            [type]="'submit'"
-            [variant]="'olther'"
-            class="w-full"
-            (onClick)="onSubmit()"
-          >
-            Continuar con Email y password
-          </app-button>
-          <div
-            class="w-full relative flex justify-center items-center h-[0.4px] bg-gray-400 my-4"
-          >
-            <p class="absolute bg-white px-2 text-xs">O</p>
-          </div>
-          <app-button
-            [type]="'submit'"
-            [variant]="'olther'"
-            class="w-full"
-            (onClick)="onSubmit()"
-          >
-            Continuar con ci y password
-          </app-button>
-        </form>
+            <app-button
+              [type]="'submit'"
+              [variant]="'terteary'"
+              (onClick)="onSubmit()"
+            >
+              <app-google-icon [size]="24" />
+              Iniciar secíon con google
+            </app-button>
+            <div
+              class="w-1/2 mx-auto relative flex justify-center items-center h-[0.4px] bg-gray-400 my-3"
+            >
+              <p class="absolute bg-white px-2 text-xs">O</p>
+            </div>
+            <app-button
+              [type]="'submit'"
+              [variant]="'primary'"
+              (onClick)="onSubmit()"
+            >
+              Continuar con Email y password
+            </app-button>
+            <div
+              class="w-1/2 mx-auto relative flex justify-center items-center h-[0.4px] bg-gray-400 my-3"
+            >
+              <p class="absolute bg-white px-2 text-xs">O</p>
+            </div>
+            <app-button
+              [type]="'submit'"
+              [variant]="'secondary'"
+              (onClick)="onSubmit()"
+            >
+              Continuar con ci y password
+            </app-button>
+          </form>
+        </article>
       </section>
-      <article class="relative  bg-slate-900">
-        <h2 class="font-bold 4xl text-white ">
-          <!-- Acceda a servicios de GAMC con una sola cuenta -->
-        </h2>
-        <div class=" transform w-full h-full relative">
-          <div class="absolute inset-0">
-            <background-paths />
-          </div>
-        </div>
+      <article
+        class="relative overflow-hidden h-[90dvh] my-auto rounded-l-xl grid grid-cols-[150px_1fr_1fr_150px] gap-2 grid-rows-[200px_1fr_1fr_200px]"
+      >
+        <bento-1 />
+        <bento-2 />
+        <bento-3 class="col-span-2  row-span-3" />
+        <bento-4 class="col-span-2 row-span-2" />
+
+        <bento-5 class="col-span-4" />
       </article>
     </main>
   `,
@@ -76,19 +105,12 @@ import { CommonModule } from '@angular/common';
 })
 export class LoginComponent implements OnInit {
   readonly FileIcon = FileIcon;
+
   private timeLine: gsap.core.Timeline;
   constructor(private element: ElementRef) {
     this.timeLine = gsap.timeline();
   }
 
   onSubmit() {}
-  ngOnInit(): void {
-    const form = this.element.nativeElement.querySelector('form');
-    this.timeLine.from(form, {
-      opacity: 0,
-      y: 80,
-      duration: 0.5,
-      ease: 'power2.out',
-    });
-  }
+  ngOnInit(): void {}
 }

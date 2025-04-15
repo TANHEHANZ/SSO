@@ -10,12 +10,12 @@ import { gsap } from 'gsap';
       position: absolute;
       inset: 0;
       pointer-events: none;
-      color: #FF6900;
+      color: #7B00F7;
     }
   `,
   template: `
     <svg
-      class="w-full h-full absolute inset-0 pointer-events-none z-10"
+      class="w-[70dvw] h-full absolute inset-0 pointer-events-none z-0"
       viewBox="0 0 696 316"
       fill="none"
     >
@@ -39,18 +39,17 @@ export class BackgroundPathsComponent implements OnInit {
   ngOnInit(): void {
     this.paths = Array.from({ length: 36 }, (_, i) => ({
       id: i,
-      d: `M-${380 - i * 5 * this.position} -${189 + i * 6}C-${
-        380 - i * 5 * this.position
-      } -${189 + i * 6} -${312 - i * 5 * this.position} ${216 - i * 6} ${
-        152 - i * 5 * this.position
-      } ${343 - i * 6}C${616 - i * 5 * this.position} ${470 - i * 6} ${
-        684 - i * 5 * this.position
-      } ${875 - i * 6} ${684 - i * 5 * this.position} ${875 - i * 6}`,
+      d: `M-${480 - i * 5 * this.position} -${289 + i * 6}C-${
+        480 - i * 5 * this.position
+      } -${289 + i * 6} -${412 - i * 5 * this.position} ${316 - i * 6} ${
+        252 - i * 5 * this.position
+      } ${443 - i * 6}C${816 - i * 5 * this.position} ${670 - i * 6} ${
+        884 - i * 5 * this.position
+      } ${1075 - i * 6} ${884 - i * 5 * this.position} ${1075 - i * 6}`,
       color: `#fff`,
       width: 0.5 + i * 0.03,
     }));
 
-    // Iniciar animación inmediatamente
     requestAnimationFrame(() => {
       this.animatePaths();
     });
@@ -69,10 +68,10 @@ export class BackgroundPathsComponent implements OnInit {
           strokeDashoffset: 0,
           opacity: 0.8,
           repeat: -1,
-          duration: 3 + index * 0.2, // Duración más corta y escalonada
+          duration: 3 + index * 0.2,
           ease: 'power1.inOut',
           yoyo: true,
-          delay: index * 0.05, // Pequeño retraso entre cada path
+          delay: index * 0.05,
         }
       );
     });
