@@ -32,11 +32,11 @@ export class ButtonComponent {
     primary:
       'bg-primary-theme_purple text-white hover:bg-primary-theme_purple/90 dark:hover:bg-primary-theme_purple/80 w-full',
     secondary:
-      'bg-transparent text-primary-theme_purple hover:bg-primary-theme_purple/10 border border-primary-theme_purple',
+      'bg-transparent text-primary-theme_purple hover:bg-indigo-300/20 border border-primary-theme_purple',
     danger:
       'bg-red-600 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800',
     terteary:
-      'bg-primary-theme_purple/5 text-primary-theme_purple hover:bg-gray-100 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700',
+      'bg-indigo-300/20 text-primary-theme_purple hover:bg-gray-100 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700',
     olther:
       'bg-primary-theme_purple/10 text-white hover:bg-slate-800 border border-primary-theme_purple/30',
   };

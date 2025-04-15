@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   imports: [],
   template: `
     <div
-      class="border border-primary-theme_purple rounded-2xl  p-8  flex justify-end items-start flex-col w-full h-full"
+      class="rounded-2xl  p-8  flex justify-end items-start flex-col w-full h-full"
     >
       <h2 class=" text-6xl font-bold ">
         Accede a

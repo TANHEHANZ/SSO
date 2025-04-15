@@ -1,9 +1,19 @@
-/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
-/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
   "compileOnSave": false,
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
+    "baseUrl": "./",
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@env/*": ["src/environments/*"],
+      "@shared/*": ["src/app/shared/*"],
+      "@core/*": ["src/app/core/*"],
+      "@models/*": ["src/app/infraestructure/models/*"]
+    },
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/app/infraestructure/models/globals"
+    ],
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -16,8 +26,19 @@
     "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
-    "module": "ES2022"
+    "module": "ES2022",
+    "lib": [
+      "ES2022",
+      "dom"
+    ]
   },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts"
+  ],
+  "files": [
+    "src/app/infraestructure/models/globals/auth.d.ts"
+  ],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
