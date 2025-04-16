@@ -4,129 +4,109 @@ import {
   ElementRef,
   inject,
   OnInit,
+  ViewChild,
 } from '@angular/core';
-import { FileIcon, LucideAngularModule, Moon, Sun } from 'lucide-angular';
-import { ButtonComponent } from '../../../shared/ui/button';
-import { GoogleIconComponent } from '../../../shared/ui/icons';
+import { ActivatedRoute } from '@angular/router';
+import { LucideAngularModule } from 'lucide-angular';
 import { TitleLoginComponent } from './components/title';
 import { BackgroundPathsComponent } from '../../../shared/backgraund';
 import gsap from 'gsap';
-
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Bento4Component } from './components/bento';
-import { Bento6Component } from './components/bento/6';
-import { AuthService } from '@app/infraestructure/services/auth';
 import { ToastComponent } from '../../../../infraestructure/lib/toast/toast.component';
 import { ToastService } from '@app/infraestructure/lib/toast/toast.service';
-import { ThemeService } from '@app/infraestructure/global/theme.service';
+import { QueryParams } from './components/bento/1';
+import { InformationComponent } from './components/information';
+import { ButtonChangeTheme } from '../../../shared/ui/button.theme';
+import { InitialFormLogin } from './components/forms/initial.form';
+import { RouteParamsService } from '@app/infraestructure/global/route-params.service';
+import { FormStateService } from '@app/infraestructure/global/form-state.service';
+import { FormContainerComponent } from './components/form-container';
+
 @Component({
   selector: 'app-login',
   imports: [
-    ButtonComponent,
-    GoogleIconComponent,
     TitleLoginComponent,
     BackgroundPathsComponent,
     ReactiveFormsModule,
     CommonModule,
-    Bento4Component,
-    Bento6Component,
     ToastComponent,
     LucideAngularModule,
+    InformationComponent,
+    ButtonChangeTheme,
+    InitialFormLogin,
+    FormContainerComponent,
   ],
   template: `
-    <!-- <carga-inicial /> -->
-    <main class="w-full h-screen overflow-hidden grid grid-cols-[500px_1fr]">
-      <button
-        (click)="themeService.toggleDarkMode()"
-        class="absolute top-4 right-4 p-2 rounded-lg bg-primary-theme_purple text-white hover:bg-primary-theme_purple/70    transition-colors"
-      >
-        <lucide-angular
-          [img]="sun"
-          class="w-6 h-6 block dark:hidden"
-        ></lucide-angular>
-        <lucide-angular
-          [img]="mon"
-          class="w-6 h-6 hidden dark:block text-white"
-        ></lucide-angular>
-      </button>
+    <change-theme />
+    <main class="w-full h-screen overflow-hidden flex relative" #collapsed>
+      <app-toast></app-toast>
       <section
-        class="flex justify-center items-center flex-col flex-1 p-8 relative"
+        class="flex-shrink-0 transition-all duration-500 ease-out"
+        [style.width]="'500px'"
+        #loginSection
       >
-        <app-toast></app-toast>
-        <background-paths />
+        <div class="flex justify-center items-center flex-col h-full p-8">
+          <background-paths />
 
-        <article
-          class="w-full h-full flex justify-center items-center flex-col"
-        >
-          <title-login />
-          <form
-            (submit)="$event.preventDefault()"
-            class="mx-auto w-[70%] flex flex-col justify-center items-center "
-          >
-            <app-button
-              [type]="'submit'"
-              [variant]="'terteary'"
-              (onClick)="onSubmit('google')"
-            >
-              <app-google-icon [size]="24" />
-              Iniciar secíon con google
-            </app-button>
-            <div
-              class="w-1/2 mx-auto relative flex justify-center items-center h-[0.4px] bg-gray-400 my-3"
-            >
-              <p
-                class="absolute bg-white px-2 text-xs dark:bg-slate-900 dark:text-white"
-              >
-                O
-              </p>
-            </div>
-            <app-button
-              [type]="'submit'"
-              [variant]="'primary'"
-              (onClick)="onSubmit('email')"
-            >
-              Continuar con Email y password
-            </app-button>
-            <div
-              class="w-1/2 mx-auto relative flex justify-center items-center h-[0.4px] bg-gray-400 my-3"
-            >
-              <p
-                class="absolute bg-white px-2 text-xs dark:bg-slate-900 dark:text-white"
-              >
-                O
-              </p>
-            </div>
-            <app-button
-              [type]="'submit'"
-              [variant]="'secondary'"
-              (onClick)="onSubmit('ci')"
-            >
-              Continuar con ci y password
-            </app-button>
-          </form>
-        </article>
+          <form-container class="w-full">
+            <ng-template #initialForm>
+              <title-login />
+              <inital-form-login class="w-full" />
+            </ng-template>
+
+            <ng-template #emailForm>
+              <div class="w-full">
+                <h2>Email Login Form</h2>
+                <!-- Email form content -->
+              </div>
+            </ng-template>
+
+            <ng-template #ciForm>
+              <div class="w-full">
+                <h2>CI Login Form</h2>
+                <!-- CI form content -->
+              </div>
+            </ng-template>
+          </form-container>
+
+          <!-- 
+          <div #initialForm class="w-full">
+            <title-login />
+            <inital-form-login class="w-full" />
+          </div> -->
+          <!-- aca podria venir iniciar secion con ci o credenciales  -->
+          <!-- tambien podra venir la creacion de la cuenta , pero el usuairo -->
+        </div>
       </section>
-      <article
-        class="relative overflow-hidden h-[90dvh] my-auto  grid grid-cols-[1fr] gap-4 grid-rows-[200px_1fr_1fr_200px] mr-4 border-l-2 pl-4 max-w-2xl dark:border-gray-500"
-      >
-        <bento-4 class="row-span-2" />
-        <bento-6 class="row-span-2" />
-        <!-- <bento-3 class="  row-span-4" /> -->
-      </article>
+      <information-login [params]="params" class="flex-1" />
     </main>
   `,
   standalone: true,
 })
-export class LoginComponent implements AfterViewInit {
-  readonly sun = Sun;
-  readonly mon = Moon;
+export class LoginComponent implements AfterViewInit, OnInit {
   toastS = inject(ToastService);
-  themeService = inject(ThemeService);
-  private timeLine: gsap.core.Timeline;
-  private authS = inject(AuthService);
-  constructor(private element: ElementRef) {
-    this.timeLine = gsap.timeline();
+  routeParams = inject(RouteParamsService);
+  formState = inject(FormStateService);
+  private element = inject(ElementRef);
+  private timeLine = gsap.timeline();
+
+  @ViewChild('collapsed') mainElement!: ElementRef;
+  @ViewChild('initialForm') initialForm!: ElementRef;
+
+  params: QueryParams = this.routeParams.getParams();
+
+  ngOnInit(): void {
+    this.routeParams.params$.subscribe((params) => {
+      this.params = params;
+    });
+    this.formState.expandedForm$.subscribe((expanded) => {
+      console.log(expanded);
+      if (!expanded) {
+        return this.collapseGrid();
+      }
+      this.expandGrid();
+    });
   }
 
   ngAfterViewInit(): void {
@@ -140,30 +120,51 @@ export class LoginComponent implements AfterViewInit {
       ease: 'back.out(1.7)',
     });
   }
-  onSubmit(type: string) {
-    switch (type) {
-      case 'google':
-        this.authS.googleLogin().subscribe({
-          next: (response) => {
-            this.toastS.addToast({
-              title: 'Login exitoso!',
-              description: 'error por que ',
-              type: 'success',
-              duration: 5000,
-            });
+  expandGrid() {
+    console.log(this.initialForm);
+    this.timeLine.clear();
+    this.timeLine
+      .to(this.mainElement.nativeElement.querySelector('section'), {
+        width: '700px',
+        duration: 0.5,
+        ease: 'power2.out',
+      })
+      .to(
+        this.initialForm.nativeElement, // Changed: remove querySelector
+        {
+          opacity: 0,
+          duration: 0.3,
+          ease: 'power1.out',
+          onComplete: () => {
+            this.initialForm.nativeElement.style.visibility = 'hidden';
+            this.initialForm.nativeElement.style.pointerEvents = 'none';
           },
-          error: (error) => {
-            this.toastS.addToast({
-              title: 'Ups!, algo salió mal',
-              description: 'Error en el inicio de sesión',
-              type: 'error',
-              duration: 5000,
-            });
-            console.error('Google login failed:', error);
-          },
-        });
-        break;
-      // ... other cases
-    }
+        },
+        '<'
+      )
+      .to(this.initialForm.nativeElement, {});
+  }
+
+  collapseGrid() {
+    this.timeLine.clear();
+    this.timeLine
+      .to(this.mainElement.nativeElement.querySelector('section'), {
+        width: '500px',
+        duration: 0.5,
+        ease: 'power2.out',
+      })
+      .set(this.initialForm.nativeElement, {
+        visibility: 'visible',
+        pointerEvents: 'auto',
+      })
+      .to(
+        this.initialForm.nativeElement,
+        {
+          opacity: 1,
+          duration: 0.3,
+          ease: 'power1.out',
+        },
+        '<'
+      );
   }
 }

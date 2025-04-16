@@ -26,7 +26,7 @@ export class ButtonComponent {
     focus:ring-4 focus:outline-none
     disabled:opacity-50 disabled:cursor-not-allowed
     flex flex-row 
-    items-center justify-center gap-2 px-[32px] py-[16px]  rounded-full
+    items-center justify-center gap-2 px-[32px] py-[16px]  rounded-full z-10
     `;
   protected variantClasses: Record<string, string> = {
     primary:

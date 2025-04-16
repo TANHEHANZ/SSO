@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const authResponseSchema = z.object({
   access_token: z.string(),
   refresh_token: z.string(),
-  auth_method: z.enum(['google', 'github', 'microsoft', 'email', 'ci']),
+  auth_method: z.enum(['google', 'github', 'email', 'ci']),
 });
 
 export const queryGoogleSchema = z.object({

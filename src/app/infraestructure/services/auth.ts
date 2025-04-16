@@ -8,11 +8,11 @@ import { environment } from '../config/config';
 export class AuthService {
   readonly URL = environment.API_BACK + '/v1/api/authentication';
   private http = inject(HttpClient);
-  googleLogin() {
-    const ROUTE = 'user/google' as const;
-    type Route = typeof ROUTE;
-    return this.http.get<API_ROUTES.AUTH_GOOGLE[Route]['data']>(
-      `${this.URL}/${ROUTE}` as Route
-    );
+
+  googleLogin(params: { client_id?: string; redirect_uri?: string }) {
+    const ROUTE = 'user/google';
+    const queryParams = new URLSearchParams(params).toString();
+    window.location.href = `${this.URL}/${ROUTE}?${queryParams}`;
+    return;
   }
 }
