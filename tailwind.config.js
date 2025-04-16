@@ -13,6 +13,7 @@ module.exports = {
       colors: {
         // Define tus colores personalizados para modo claro y oscuro
         primary: {
+          neumo:"#e0e5ec",
           theme_orage:"#F9B100",
           theme_purple:"#7B00F7",
           theme_maguenta:"#EA547C",

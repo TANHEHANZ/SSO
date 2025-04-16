@@ -9,7 +9,7 @@ import gsap from 'gsap';
   template: `
     <section class="rounded-2xl grid grid-cols-3 gap-2 w-full h-1/2 ">
       <div
-        class="bg-primary-theme_purple text-white rounded-xl w-full h-full p-4 flex flex-col"
+        class="bg-primary-theme_purple dark:bg-primary-theme_purple/60 text-white rounded-xl w-full h-full p-4 flex flex-col"
       >
         <p
           class="text-[10px] self-end bg-white px-2 py-1 text-primary-theme_purple rounded-md"
@@ -23,7 +23,7 @@ import gsap from 'gsap';
         <p class="text-sm">Una sola cuenta para todos los servicios de GAMC</p>
       </div>
       <div
-        class="border border-primary-theme_purple rounded-xl w-full h-full p-4 flex flex-col"
+        class="border border-primary-theme_purple rounded-xl w-full h-full p-4 flex flex-col dark:text-primary-theme_purple"
       >
         <p
           class="text-[10px] self-end bg-white px-2 py-1 text-primary-theme_purple rounded-md"
@@ -38,7 +38,9 @@ import gsap from 'gsap';
           Autenticación robusta y gestión centralizada de accesos
         </p>
       </div>
-      <div class="bg-indigo-300/20 rounded-xl w-full h-full p-4 flex flex-col">
+      <div
+        class="bg-indigo-300/20 rounded-xl w-full h-full p-4 flex flex-col dark:text-white"
+      >
         <p
           class="text-[10px] self-end bg-white px-2 py-1 text-primary-theme_purple rounded-md"
         >

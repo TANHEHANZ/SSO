@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
     <div
       class="rounded-2xl  p-8  flex justify-end items-start flex-col w-full h-full"
     >
-      <h2 class=" text-6xl font-bold ">
+      <h2 class=" text-6xl font-bold  dark:text-white/90">
         Accede a
         <strong class="text-primary-theme_purple">servicios</strong> de GAMC con
         una sola cuenta

@@ -30,7 +30,7 @@ export class ButtonComponent {
     `;
   protected variantClasses: Record<string, string> = {
     primary:
-      'bg-primary-theme_purple text-white hover:bg-primary-theme_purple/90 dark:hover:bg-primary-theme_purple/80 w-full',
+      'bg-primary-theme_purple text-white hover:bg-primary-theme_purple/90 dark:hover:bg-primary-theme_purple/80 dark:bg-primary-theme_purple/60 w-full',
     secondary:
       'bg-transparent text-primary-theme_purple hover:bg-indigo-300/20 border border-primary-theme_purple',
     danger:

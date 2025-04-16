@@ -4,9 +4,8 @@ import {
   ElementRef,
   inject,
   OnInit,
-  ViewChild,
 } from '@angular/core';
-import { FileIcon } from 'lucide-angular';
+import { FileIcon, LucideAngularModule, Moon, Sun } from 'lucide-angular';
 import { ButtonComponent } from '../../../shared/ui/button';
 import { GoogleIconComponent } from '../../../shared/ui/icons';
 import { TitleLoginComponent } from './components/title';
@@ -15,11 +14,12 @@ import gsap from 'gsap';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Bento3Component, Bento4Component } from './components/bento';
-import { CargaComponent } from './components/carga';
+import { Bento4Component } from './components/bento';
 import { Bento6Component } from './components/bento/6';
-import { environment } from '../../../../infraestructure/config/config';
 import { AuthService } from '@app/infraestructure/services/auth';
+import { ToastComponent } from '../../../../infraestructure/lib/toast/toast.component';
+import { ToastService } from '@app/infraestructure/lib/toast/toast.service';
+import { ThemeService } from '@app/infraestructure/global/theme.service';
 @Component({
   selector: 'app-login',
   imports: [
@@ -29,16 +29,31 @@ import { AuthService } from '@app/infraestructure/services/auth';
     BackgroundPathsComponent,
     ReactiveFormsModule,
     CommonModule,
-    Bento3Component,
     Bento4Component,
     Bento6Component,
+    ToastComponent,
+    LucideAngularModule,
   ],
   template: `
     <!-- <carga-inicial /> -->
     <main class="w-full h-screen overflow-hidden grid grid-cols-[500px_1fr]">
+      <button
+        (click)="themeService.toggleDarkMode()"
+        class="absolute top-4 right-4 p-2 rounded-lg bg-primary-theme_purple text-white hover:bg-primary-theme_purple/70    transition-colors"
+      >
+        <lucide-angular
+          [img]="sun"
+          class="w-6 h-6 block dark:hidden"
+        ></lucide-angular>
+        <lucide-angular
+          [img]="mon"
+          class="w-6 h-6 hidden dark:block text-white"
+        ></lucide-angular>
+      </button>
       <section
         class="flex justify-center items-center flex-col flex-1 p-8 relative"
       >
+        <app-toast></app-toast>
         <background-paths />
 
         <article
@@ -60,7 +75,11 @@ import { AuthService } from '@app/infraestructure/services/auth';
             <div
               class="w-1/2 mx-auto relative flex justify-center items-center h-[0.4px] bg-gray-400 my-3"
             >
-              <p class="absolute bg-white px-2 text-xs">O</p>
+              <p
+                class="absolute bg-white px-2 text-xs dark:bg-slate-900 dark:text-white"
+              >
+                O
+              </p>
             </div>
             <app-button
               [type]="'submit'"
@@ -72,7 +91,11 @@ import { AuthService } from '@app/infraestructure/services/auth';
             <div
               class="w-1/2 mx-auto relative flex justify-center items-center h-[0.4px] bg-gray-400 my-3"
             >
-              <p class="absolute bg-white px-2 text-xs">O</p>
+              <p
+                class="absolute bg-white px-2 text-xs dark:bg-slate-900 dark:text-white"
+              >
+                O
+              </p>
             </div>
             <app-button
               [type]="'submit'"
@@ -85,10 +108,9 @@ import { AuthService } from '@app/infraestructure/services/auth';
         </article>
       </section>
       <article
-        class="relative overflow-hidden h-[90dvh] my-auto  grid grid-cols-[1fr_1fr] gap-4 grid-rows-[200px_1fr_1fr_200px] mr-4 border-l-2 pl-4"
+        class="relative overflow-hidden h-[90dvh] my-auto  grid grid-cols-[1fr] gap-4 grid-rows-[200px_1fr_1fr_200px] mr-4 border-l-2 pl-4 max-w-2xl dark:border-gray-500"
       >
-        <bento-4 class=" row-span-2" />
-        <bento-6 class="row-span-2 opacity-0" />
+        <bento-4 class="row-span-2" />
         <bento-6 class="row-span-2" />
         <!-- <bento-3 class="  row-span-4" /> -->
       </article>
@@ -97,8 +119,10 @@ import { AuthService } from '@app/infraestructure/services/auth';
   standalone: true,
 })
 export class LoginComponent implements AfterViewInit {
-  readonly FileIcon = FileIcon;
-
+  readonly sun = Sun;
+  readonly mon = Moon;
+  toastS = inject(ToastService);
+  themeService = inject(ThemeService);
   private timeLine: gsap.core.Timeline;
   private authS = inject(AuthService);
   constructor(private element: ElementRef) {
@@ -116,28 +140,30 @@ export class LoginComponent implements AfterViewInit {
       ease: 'back.out(1.7)',
     });
   }
-
   onSubmit(type: string) {
     switch (type) {
       case 'google':
         this.authS.googleLogin().subscribe({
           next: (response) => {
-            // Handle successful login
-            console.log('Google login success:', response);
-            // Redirect or handle token storage
+            this.toastS.addToast({
+              title: 'Login exitoso!',
+              description: 'error por que ',
+              type: 'success',
+              duration: 5000,
+            });
           },
           error: (error) => {
+            this.toastS.addToast({
+              title: 'Ups!, algo salió mal',
+              description: 'Error en el inicio de sesión',
+              type: 'error',
+              duration: 5000,
+            });
             console.error('Google login failed:', error);
-            // Handle error (show message, etc)
           },
         });
         break;
-      case 'email':
-        // Implement email login route
-        break;
-      case 'ci':
-        // Implement CI login route
-        break;
+      // ... other cases
     }
   }
 }

@@ -4,12 +4,14 @@ import gsap from 'gsap';
   selector: 'title-login',
   imports: [],
   template: `
-    <section class="my-2 flex flex-col justify-center items-center">
-      <div class="flex text-4xl gap-2 font-normal text-center">
+    <section
+      class="my-2 flex flex-col justify-center items-center dark:text-white"
+    >
+      <div class="flex text-4xl gap-2 font-normal text-center ">
         <p id="1">Bienvenido</p>
         <p id="2">👋</p>
       </div>
-      <div class="flex text-gray-500 font-light text-sm mt-2">
+      <div class="flex text-gray-500 font-light text-sm mt-2 dark:text-white">
         <p id="3">Elige tu método preferido para iniciar sesión</p>
       </div>
     </section>
