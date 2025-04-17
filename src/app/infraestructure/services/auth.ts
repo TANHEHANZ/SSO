@@ -15,4 +15,12 @@ export class AuthService {
     window.location.href = `${this.URL}/${ROUTE}?${queryParams}`;
     return;
   }
+  emailLogin(credentials: {
+    email: string;
+    password: string;
+    provider: string;
+  }) {
+    const ROUTE = 'user/credential';
+    return this.http.post(`${this.URL}/${ROUTE}`, credentials);
+  }
 }
