@@ -7,14 +7,16 @@ import {
   FormStateService,
   FormType,
 } from '@app/infraestructure/global/form-state.service';
+import { TitleLoginComponent } from '../title';
 
 @Component({
   selector: 'inital-form-login',
   template: ` <form
     #loginForm
     (submit)="$event.preventDefault()"
-    class="mx-auto w-[70%] flex flex-col justify-center items-center "
+    class=" w-full flex flex-col justify-center items-center "
   >
+    <title-login />
     <app-button
       [type]="'submit'"
       [variant]="'terteary'"
@@ -60,23 +62,24 @@ import {
       <p>¿Necesitas ayuda?</p>
     </div>
   </form>`,
-  imports: [ButtonComponent, GoogleIconComponent],
+  imports: [ButtonComponent, GoogleIconComponent, TitleLoginComponent],
 })
 export class InitialFormLogin {
   @ViewChild('loginForm') formElement!: ElementRef;
   private authS = inject(AuthService);
   private formState = inject(FormStateService);
   params: QueryParams = {};
-  expanded = false;
+
   onSubmit(type: string) {
     switch (type) {
       case 'google':
         this.authS.googleLogin(this.params);
         break;
       case 'email':
+        this.formState.toggleFormExpansion(true, 'email');
+        break;
       case 'ci':
-        this.expanded = !this.expanded;
-        this.formState.toggleFormExpansion(this.expanded, type as FormType);
+        this.formState.toggleFormExpansion(true, 'ci');
         break;
     }
   }

@@ -34,7 +34,6 @@ import { FormContainerComponent } from './components/form-container';
     LucideAngularModule,
     InformationComponent,
     ButtonChangeTheme,
-    InitialFormLogin,
     FormContainerComponent,
   ],
   template: `
@@ -49,34 +48,7 @@ import { FormContainerComponent } from './components/form-container';
         <div class="flex justify-center items-center flex-col h-full p-8">
           <background-paths />
 
-          <form-container class="w-full">
-            <ng-template #initialForm>
-              <title-login />
-              <inital-form-login class="w-full" />
-            </ng-template>
-
-            <ng-template #emailForm>
-              <div class="w-full">
-                <h2>Email Login Form</h2>
-                <!-- Email form content -->
-              </div>
-            </ng-template>
-
-            <ng-template #ciForm>
-              <div class="w-full">
-                <h2>CI Login Form</h2>
-                <!-- CI form content -->
-              </div>
-            </ng-template>
-          </form-container>
-
-          <!-- 
-          <div #initialForm class="w-full">
-            <title-login />
-            <inital-form-login class="w-full" />
-          </div> -->
-          <!-- aca podria venir iniciar secion con ci o credenciales  -->
-          <!-- tambien podra venir la creacion de la cuenta , pero el usuairo -->
+          <form-container />
         </div>
       </section>
       <information-login [params]="params" class="flex-1" />
@@ -92,7 +64,6 @@ export class LoginComponent implements AfterViewInit, OnInit {
   private timeLine = gsap.timeline();
 
   @ViewChild('collapsed') mainElement!: ElementRef;
-  @ViewChild('initialForm') initialForm!: ElementRef;
 
   params: QueryParams = this.routeParams.getParams();
 
@@ -121,50 +92,20 @@ export class LoginComponent implements AfterViewInit, OnInit {
     });
   }
   expandGrid() {
-    console.log(this.initialForm);
     this.timeLine.clear();
-    this.timeLine
-      .to(this.mainElement.nativeElement.querySelector('section'), {
-        width: '700px',
-        duration: 0.5,
-        ease: 'power2.out',
-      })
-      .to(
-        this.initialForm.nativeElement, // Changed: remove querySelector
-        {
-          opacity: 0,
-          duration: 0.3,
-          ease: 'power1.out',
-          onComplete: () => {
-            this.initialForm.nativeElement.style.visibility = 'hidden';
-            this.initialForm.nativeElement.style.pointerEvents = 'none';
-          },
-        },
-        '<'
-      )
-      .to(this.initialForm.nativeElement, {});
+    this.timeLine.to(this.mainElement.nativeElement.querySelector('section'), {
+      width: '700px',
+      duration: 0.5,
+      ease: 'power2.out',
+    });
   }
 
   collapseGrid() {
     this.timeLine.clear();
-    this.timeLine
-      .to(this.mainElement.nativeElement.querySelector('section'), {
-        width: '500px',
-        duration: 0.5,
-        ease: 'power2.out',
-      })
-      .set(this.initialForm.nativeElement, {
-        visibility: 'visible',
-        pointerEvents: 'auto',
-      })
-      .to(
-        this.initialForm.nativeElement,
-        {
-          opacity: 1,
-          duration: 0.3,
-          ease: 'power1.out',
-        },
-        '<'
-      );
+    this.timeLine.to(this.mainElement.nativeElement.querySelector('section'), {
+      width: '500px',
+      duration: 0.5,
+      ease: 'power2.out',
+    });
   }
 }

@@ -15,7 +15,7 @@ import { gsap } from 'gsap';
   `,
   template: `
     <svg
-      class="w-[70dvw] h-full absolute inset-0 pointer-events-none z-0"
+      class="w-full h-full absolute inset-0 pointer-events-none z-0"
       viewBox="0 0 696 316"
       fill="none"
     >
