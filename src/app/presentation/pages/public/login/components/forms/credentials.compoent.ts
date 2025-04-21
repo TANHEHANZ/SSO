@@ -8,29 +8,28 @@ import {
   Validators,
 } from '@angular/forms';
 import { ToastService } from '@app/infraestructure/lib/toast/toast.service';
-import { LogIn, LucideAngularModule } from 'lucide-angular';
+import { LogIn, LucideAngularModule, UserPlus } from 'lucide-angular';
 import { AuthService } from '@app/infraestructure/services/auth';
+import { ErrorHandlerService } from '@app/infraestructure/global/error-handler.service';
+import { CommonModule } from '@angular/common';
+import { CheckboxComponent } from '../../../../../shared/ui/check';
 
 @Component({
   selector: 'credential-component',
   template: `
     <form
-      class="flex flex-col justify-center items-center w-full gap-4 "
+      class="flex flex-col justify-center  w-full gap-4 "
       [formGroup]="form"
     >
-      <h1 class="flex text-4xl gap-2 font-normal text-center relative">
+      <h1 class="flex text-4xl gap-2 font-medium relative dark:text-white">
         <p
-          class="text-xs bg-primary-theme_orage absolute -top-6 left-0 px-2 py-0.5 rounded-md"
+          class="text-xs bg-primary-theme_orage absolute -top-6 left-0 px-2 py-0.5 rounded-md text-white"
         >
           credenciales
         </p>
         Formulario de inicio
       </h1>
-      <p
-        class="text-sm text-gray-600 text-center bg-indigo-300/20 p-4 rounded-xl "
-      >
-        Por tu seguridad, tienes 3 intentos disponibles para acceder a tu cuenta
-      </p>
+
       <app-input
         formControlName="email"
         [label]="'Email'"
@@ -52,10 +51,39 @@ import { AuthService } from '@app/infraestructure/services/auth';
             : ''
         "
       ></app-input>
-      <app-button variant="primary" class="w-full" (onClick)="login()">
-        <i-lucide [img]="loginLucide" class="my-icon"></i-lucide>
-        Iniciar seción</app-button
-      >
+      <div class="mt-2">
+        <div class="mt-2">
+          <div class="mt-2">
+            <app-checkbox
+              formControlName="acceptTerms"
+              id="terms"
+              [error]="
+                !form.get('acceptTerms')?.touched &&
+                !form.get('acceptTerms')?.value
+              "
+            >
+              Acepto los
+              <a
+                href="/terms"
+                class="text-primary-theme_orage hover:underline dark:text-primary-theme_orage/80"
+              >
+                términos y condiciones
+              </a>
+              de uso
+            </app-checkbox>
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-2">
+        <app-button variant="secondary" class="">
+          <i-lucide [img]="UserPlus" class="my-icon"></i-lucide>
+          Registrarse
+        </app-button>
+        <app-button variant="primary" class="w-full" (onClick)="login()">
+          <i-lucide [img]="loginLucide" class="my-icon"></i-lucide>
+          Iniciar sesión
+        </app-button>
+      </div>
     </form>
   `,
   imports: [
@@ -63,12 +91,16 @@ import { AuthService } from '@app/infraestructure/services/auth';
     InputComponent,
     ReactiveFormsModule,
     LucideAngularModule,
+    CommonModule,
+    CheckboxComponent,
   ],
 })
 export class credentialFormComponent {
   readonly loginLucide = LogIn;
+  readonly UserPlus = UserPlus;
   authS = inject(AuthService);
   toasS = inject(ToastService);
+  errorHandler = inject(ErrorHandlerService);
   form = new FormGroup({
     email: new FormControl('', [
       Validators.required,
@@ -82,14 +114,15 @@ export class credentialFormComponent {
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&._-])[A-Za-z\d@$!%*?&._-]{6,}$/
       ),
     ]),
+    acceptTerms: new FormControl(false, [Validators.requiredTrue]),
   });
   login() {
     console.log(this.form.value);
 
     if (this.form.invalid) {
       this.toasS.addToast({
-        title: 'Inicio de seción',
-        description: 'Revisa los datos introducidos',
+        title: 'Inicio de sesión',
+        description: 'Por favor, verifica los datos ingresados para continuar',
         id: 'login',
         type: 'info',
       });
@@ -104,19 +137,19 @@ export class credentialFormComponent {
       .subscribe({
         next: (value) => {
           this.toasS.addToast({
-            title: 'Inicio de seción',
-            description: 'Bienvenido',
+            title: 'Inicio de sesión',
+            description: '¡Bienvenido! Nos alegra verte de nuevo',
             id: 'login',
             type: 'success',
           });
         },
         error: (err) => {
-          console.log(err);
+          const { message, type } = this.errorHandler.getErrorMessage(err);
           this.toasS.addToast({
-            title: 'Inicio de seción',
-            description: err.error.message,
+            title: 'Inicio de sesión',
+            description: message,
             id: 'login',
-            type: 'error',
+            type,
           });
           this.form.reset();
         },

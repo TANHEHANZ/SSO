@@ -1,11 +1,12 @@
 import { Component, Input, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { LucideAngularModule, Square, SquareCheck } from 'lucide-angular';
 
 @Component({
   selector: 'app-checkbox',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LucideAngularModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -14,50 +15,38 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     },
   ],
   template: `
-    <div
-      class="flex"
-      [class.flex-col]="labelPosition === 'top'"
-      [class.items-center]="
-        labelPosition === 'right' || labelPosition === 'left'
-      "
-      [class.flex-row-reverse]="labelPosition === 'left'"
-      [class.gap-2]="true"
-    >
-      <label [for]="id" class="relative flex items-center cursor-pointer">
+    <div class="flex items-start gap-2">
+      <div class="flex items-center h-5">
         <input
           type="checkbox"
           [id]="id"
-          class="sr-only peer"
-          [checked]="checked"
+          [checked]="value"
           [disabled]="disabled"
-          (change)="onInputChange($event)"
+          (change)="handleChange($event)"
+          (blur)="onTouchedValue()"
+          class="sr-only"
         />
         <div
-          class="w-5 h-5 border-2 rounded-md peer-focus:ring-2 peer-focus:ring-primary-theme_orage/20 transition-all duration-200
-            peer-checked:bg-primary-theme_orage peer-checked:border-primary-theme_orage
-            peer-disabled:opacity-50 peer-disabled:cursor-not-allowed
-            border-gray-300 bg-white"
+          (click)="handleChange($event)"
+          class="w-5 h-5 flex items-center justify-center transition-all duration-200
+          focus:ring-2 focus:ring-primary-theme_orage/20
+          disabled:opacity-50 disabled:cursor-not-allowed
+          dark:text-gray-200
+          cursor-pointer"
+          [class.border-red-500]="error"
+          [class.dark:border-red-500]="error"
         >
-          <svg
-            class="w-3 h-3 mx-auto mt-0.5 text-white"
-            [class.hidden]="!checked"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="3"
-              d="M5 13l4 4L19 7"
-            />
-          </svg>
+          <i-lucide
+            [img]="value ? SquareCheck : Square"
+            class="w-5 h-5"
+            [class.text-primary-theme_orage]="value"
+          ></i-lucide>
         </div>
-      </label>
+      </div>
       <label
         [for]="id"
-        class="text-sm text-gray-700 cursor-pointer select-none"
-        [class.text-gray-400]="disabled"
+        class="text-sm text-gray-700 dark:text-gray-200 cursor-pointer select-none"
+        [class.opacity-50]="disabled"
       >
         <ng-content></ng-content>
       </label>
@@ -66,33 +55,34 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class CheckboxComponent implements ControlValueAccessor {
   @Input() id = '';
-  @Input() labelPosition: 'left' | 'right' | 'top' = 'right';
+  @Input() error = false;
   @Input() disabled = false;
+  readonly Square = Square;
+  readonly SquareCheck = SquareCheck;
 
-  checked = false;
-  onChange = (value: boolean) => {};
-  onTouched = () => {};
-
-  onInputChange(event: Event) {
-    const checkbox = event.target as HTMLInputElement;
-    this.checked = checkbox.checked;
-    this.onChange(this.checked);
-    this.onTouched();
-  }
+  value = false;
+  protected onChangeValue: (value: boolean) => void = () => {};
+  protected onTouchedValue: () => void = () => {};
 
   writeValue(value: boolean): void {
-    this.checked = value;
+    this.value = value;
   }
 
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
+  registerOnChange(fn: (value: boolean) => void): void {
+    this.onChangeValue = fn;
   }
 
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
+  registerOnTouched(fn: () => void): void {
+    this.onTouchedValue = fn;
   }
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+  }
+
+  handleChange(event: Event): void {
+    this.value = !this.value;
+    this.onChangeValue(this.value);
+    this.onTouchedValue();
   }
 }

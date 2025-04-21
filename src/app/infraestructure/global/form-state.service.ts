@@ -17,4 +17,7 @@ export class FormStateService {
     this.expandedForm.next(expanded);
     this.currentForm.next(formType);
   }
+  setCurrentForm(form: FormType) {
+    this.currentForm.next(form);
+  }
 }

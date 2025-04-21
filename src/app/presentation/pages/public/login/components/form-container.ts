@@ -4,7 +4,6 @@ import {
   ElementRef,
   ViewChild,
   inject,
-  signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormStateService } from '@app/infraestructure/global/form-state.service';
@@ -14,6 +13,7 @@ import { InitialFormLogin } from './forms/initial.form';
 import { credentialFormComponent } from './forms/credentials.compoent';
 import { CiFormComponent } from './forms/ci.component';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { ChevronLeft, LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'form-container',
@@ -23,16 +23,27 @@ import { toSignal } from '@angular/core/rxjs-interop';
     InitialFormLogin,
     credentialFormComponent,
     CiFormComponent,
+    LucideAngularModule,
   ],
   template: `
     <div
-      class="relative w-full flex-1 flex  justify-center items-center"
+      class=" w-full h-full flex  justify-center items-center relative"
       #formContainer
     >
-      <div class="form-element w-full relative h-full " #initial>
+      <button
+        class=" absolute top-0 right-0 -translate-y-24 opacity-0 p-2 bg-violet-200 rounded-xl text-primary-theme_purple hover:bg-primary-theme_purple/70  transition-colors z-30 group"
+        #backButton
+        (click)="goBack()"
+      >
+        <i-lucide
+          [img]="ChevronLeft"
+          class="text-primary-theme_purple   group-hover:text-white transition-colors"
+        ></i-lucide>
+      </button>
+      <div class="form-element  relative w-full " #initial>
         <inital-form-login />
       </div>
-      <div class="form-element hidden opacity-0" #email>
+      <div class="form-element hidden opacity-0 w-[80%] mx-auto" #email>
         <credential-component />
       </div>
 
@@ -43,38 +54,66 @@ import { toSignal } from '@angular/core/rxjs-interop';
   `,
 })
 export class FormContainerComponent implements AfterViewInit {
+  readonly ChevronLeft = ChevronLeft;
   private formState = inject(FormStateService);
   currentForm = toSignal(this.formState.currentForm$);
+  private timeline = gsap.timeline();
 
   @ViewChild('initial', { static: false }) initialForm!: ElementRef;
   @ViewChild('email') emailForm!: ElementRef;
   @ViewChild('ci') ciForm!: ElementRef;
+  @ViewChild('backButton') backButton!: ElementRef;
 
   showView() {}
+  private handleFormTransition(from: ElementRef, to: ElementRef) {
+    this.timeline.clear(); // Clear previous animations
+    return this.timeline
+      .to(from.nativeElement, {
+        opacity: 0,
+        duration: 0.3,
+        ease: 'power2.out',
+        display: 'none',
+      })
+      .set(to.nativeElement, {
+        display: 'block',
+        opacity: 0,
+      })
+      .to(to.nativeElement, {
+        opacity: 1,
+        duration: 0.5,
+        ease: 'power2.out',
+      });
+  }
+
   ngAfterViewInit(): void {
     this.formState.currentForm$.subscribe((form) => {
-      console.log(form);
-      console.log(this.initialForm.nativeElement);
       switch (form) {
         case 'email':
-          this.timeline
-            .to(this.initialForm.nativeElement, {
-              opacity: 0,
-              duration: 0.5,
-              ease: 'power2.out',
-              onComplete: () => {
-                this.initialForm.nativeElement.classList.add('hidden');
-              },
-            })
-            .set(this.emailForm.nativeElement, {
-              display: 'block',
+          this.handleFormTransition(this.initialForm, this.emailForm);
+          this.timeline.to(
+            this.backButton.nativeElement,
+            {
               opacity: 1,
-              y: 20,
-            });
-
+              y: 0,
+              duration: 0.3,
+              ease: 'back.out(1.7)',
+            },
+            '-=0.3'
+          );
+          break;
+        case 'initial':
+          this.handleFormTransition(this.emailForm, this.initialForm);
+          this.timeline.to(this.backButton.nativeElement, {
+            opacity: 0,
+            y: -20,
+            duration: 0.3,
+          });
           break;
       }
     });
   }
-  private timeline = gsap.timeline();
+
+  goBack() {
+    this.formState.toggleFormExpansion(false, 'initial');
+  }
 }

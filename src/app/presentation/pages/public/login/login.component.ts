@@ -45,10 +45,14 @@ import { FormContainerComponent } from './components/form-container';
         [style.width]="'500px'"
         #loginSection
       >
-        <div class="flex justify-center items-center flex-col h-full p-8">
+        <div
+          class="flex justify-center items-center flex-col h-full p-8 w-full"
+        >
           <background-paths />
 
-          <form-container />
+          <form-container
+            class="w-full h-full flex justify-center items-center"
+          />
         </div>
       </section>
       <information-login [params]="params" class="flex-1" />
