@@ -21,8 +21,15 @@ import { CommonModule } from '@angular/common';
         [value]="value"
         (input)="onInput($event)"
         (blur)="onBlur()"
-        class="block px-2.5 pb-3.5 pt-6 w-full min-w-96  text-sm bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-primary-theme_orage peer"
+        class="block px-2.5 pb-3.5 pt-6 w-full min-w-96 text-sm 
+        bg-transparent rounded-lg border border-gray-300 
+        appearance-none focus:outline-none focus:ring-0 
+        focus:border-primary-theme_orage peer
+        dark:border-gray-600 dark:text-white
+        dark:focus:border-primary-theme_orage/80
+        dark:placeholder-gray-400"
         [class.border-red-500]="error"
+        [class.dark:border-red-500]="error"
         [class.pr-10]="type === 'password'"
         [placeholder]=""
       />
@@ -30,7 +37,9 @@ import { CommonModule } from '@angular/common';
         *ngIf="type === 'password'"
         type="button"
         (click)="togglePassword()"
-        class="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600"
+        class="absolute right-2 top-1/2 -translate-y-1/2 p-1 
+        text-gray-400 hover:text-gray-600
+        dark:text-gray-400 dark:hover:text-gray-300"
       >
         <svg
           *ngIf="!showPassword"
@@ -70,12 +79,22 @@ import { CommonModule } from '@angular/common';
       </button>
       <label
         [for]="id"
-        class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-primary-theme_orage start-1 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+        class="absolute text-sm text-gray-500 duration-300 transform 
+        -translate-y-4 scale-75 top-2 z-10 origin-[10] 
+        bg-white dark:bg-gray-900 px-2 
+        peer-focus:px-2 peer-placeholder-shown:scale-100 
+        peer-placeholder-shown:-translate-y-1/2 
+        peer-placeholder-shown:top-1/2 peer-focus:top-2 
+        peer-focus:-translate-y-4 peer-focus:scale-75 
+        peer-focus:text-primary-theme_orage
+        dark:text-gray-400 
+        dark:peer-focus:text-primary-theme_orage/80"
         [class.text-red-500]="error"
+        [class.dark:text-red-500]="error"
       >
         {{ label }}
       </label>
-      <p *ngIf="error" class="mt-1 text-xs text-red-500">
+      <p *ngIf="error" class="mt-1 text-xs text-red-500 dark:text-red-400">
         {{ error }}
       </p>
     </div>

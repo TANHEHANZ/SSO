@@ -7,7 +7,7 @@ import { LucideAngularModule, Moon, Sun } from 'lucide-angular';
   imports: [LucideAngularModule],
   template: `<button
     (click)="themeService.toggleDarkMode()"
-    class="fixed top-4 right-4 p-2 rounded-lg bg-primary-theme_purple text-white hover:bg-primary-theme_purple/70    transition-colors z-30"
+    class="fixed top-4 right-4 p-2 rounded-xl bg-primary-theme_purple text-white hover:bg-primary-theme_purple/70    transition-colors z-30"
   >
     <lucide-angular
       [img]="sun"
