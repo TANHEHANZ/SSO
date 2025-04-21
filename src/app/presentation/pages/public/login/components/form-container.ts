@@ -66,7 +66,7 @@ export class FormContainerComponent implements AfterViewInit {
 
   showView() {}
   private handleFormTransition(from: ElementRef, to: ElementRef) {
-    this.timeline.clear(); // Clear previous animations
+    this.timeline.clear();
     return this.timeline
       .to(from.nativeElement, {
         opacity: 0,
@@ -84,25 +84,35 @@ export class FormContainerComponent implements AfterViewInit {
         ease: 'power2.out',
       });
   }
-
   ngAfterViewInit(): void {
+    let previousForm: 'email' | 'ci' = 'email';
+
     this.formState.currentForm$.subscribe((form) => {
       switch (form) {
         case 'email':
           this.handleFormTransition(this.initialForm, this.emailForm);
-          this.timeline.to(
-            this.backButton.nativeElement,
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.3,
-              ease: 'back.out(1.7)',
-            },
-            '-=0.3'
-          );
+          previousForm = 'email';
+          this.timeline.to(this.backButton.nativeElement, {
+            opacity: 1,
+            y: 0,
+            duration: 0.3,
+            ease: 'back.out(1.7)',
+          });
+          break;
+        case 'ci':
+          this.handleFormTransition(this.initialForm, this.ciForm);
+          previousForm = 'ci';
+          this.timeline.to(this.backButton.nativeElement, {
+            opacity: 1,
+            y: 0,
+            duration: 0.3,
+            ease: 'back.out(1.7)',
+          });
           break;
         case 'initial':
-          this.handleFormTransition(this.emailForm, this.initialForm);
+          const formToTransition =
+            previousForm === 'email' ? this.emailForm : this.ciForm;
+          this.handleFormTransition(formToTransition, this.initialForm);
           this.timeline.to(this.backButton.nativeElement, {
             opacity: 0,
             y: -20,

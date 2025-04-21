@@ -23,4 +23,12 @@ export class AuthService {
     const ROUTE = 'user/credential';
     return this.http.post(`${this.URL}/${ROUTE}`, credentials);
   }
+  ciLogin(credetial: {
+    ci_number: string;
+    password: string;
+    provider: string;
+  }) {
+    const ROUTE = 'user/credential';
+    return this.http.post(`${this.URL}/${ROUTE}`, credetial);
+  }
 }
