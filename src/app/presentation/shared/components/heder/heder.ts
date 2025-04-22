@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   LucideAngularModule,
@@ -7,8 +7,10 @@ import {
   Moon,
   LogOut,
   UserCog,
+  Menu,
 } from 'lucide-angular';
 import { RouterModule } from '@angular/router';
+import { NavStateService } from '@app/infraestructure/global/nav.service';
 
 @Component({
   selector: 'app-header',
@@ -18,6 +20,12 @@ import { RouterModule } from '@angular/router';
     <div
       class="w-full bg-white h-[8dvh] border border-b flex justify-end items-center p-4"
     >
+      <button
+        (click)="toggleNav()"
+        class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+      >
+        <i-lucide [img]="menu" [size]="24" />
+      </button>
       <div class="relative">
         <div
           (click)="toggleDropdown()"
@@ -83,6 +91,12 @@ export class Header {
   toggleTheme() {
     this.isDark = !this.isDark;
     document.documentElement.classList.toggle('dark');
+  }
+  private navState = inject(NavStateService);
+  readonly menu = Menu;
+
+  toggleNav() {
+    this.navState.toggleNav();
   }
 
   logout() {

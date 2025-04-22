@@ -13,6 +13,13 @@ export const ADMIN_ROUTES: Routes = [
           ),
       },
       {
+        path: 'clientes',
+        loadComponent: () =>
+          import('./clientes/clientes.component').then(
+            (m) => m.ClientesCompoent
+          ),
+      },
+      {
         path: 'users',
         loadComponent: () =>
           import('./users/users.component').then((m) => m.UsersComponent),

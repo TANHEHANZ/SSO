@@ -37,8 +37,8 @@ export class NavComponent {
     },
 
     {
-      path: '/admin/applications',
-      label: 'Applications',
+      path: '/admin/clientes',
+      label: 'Clientes',
       icon: Monitor,
     },
     {
