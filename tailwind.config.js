@@ -15,12 +15,13 @@ module.exports = {
         primary: {
           neumo:"#e0e5ec",
           theme_orage:"#F9B100",
-          theme_purple:"#7B00F7",
+          theme_purple:"#482778",
           theme_maguenta:"#EA547C",
           theme_cian:"#4AC1E0",
-          theme_mint_green:"#B4DAD1",
+          theme_mint_green:"#4FB9A8",
           theme_light: '#4F46E5', // color para modo claro
-          theme_dark: '#6366F1'   // color para modo oscuro
+          theme_dark: '#6366F1',   // color para modo oscuro
+          backgraund:"#F6F6F8",
         }
       }
 

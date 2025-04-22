@@ -6,4 +6,11 @@ export const routes: Routes = [
     path: '',
     component: LoginComponent,
   },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./presentation/pages/private/admin.routes').then(
+        (m) => m.ADMIN_ROUTES
+      ),
+  },
 ];
