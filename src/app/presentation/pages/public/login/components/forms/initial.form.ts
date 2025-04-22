@@ -8,6 +8,7 @@ import {
   FormType,
 } from '@app/infraestructure/global/form-state.service';
 import { TitleLoginComponent } from '../title';
+import { ToastService } from '@app/infraestructure/lib/toast/toast.service';
 
 @Component({
   selector: 'inital-form-login',
@@ -68,11 +69,22 @@ export class InitialFormLogin {
   @ViewChild('loginForm') formElement!: ElementRef;
   private authS = inject(AuthService);
   private formState = inject(FormStateService);
+  private toastS = inject(ToastService);
   params: QueryParams = {};
 
   onSubmit(type: string) {
     switch (type) {
       case 'google':
+        if (!this.params.client_id || !this.params.redirect_uri) {
+          this.toastS.addToast({
+            title: 'Método no disponible',
+            description:
+              'El inicio de sesión con Google no está habilitado en este momento',
+            type: 'error',
+            id: 'google-auth',
+          });
+          return;
+        }
         this.authS.googleLogin(this.params);
         break;
       case 'email':
