@@ -6,9 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
-import { TitleLoginComponent } from './components/title';
 import { BackgroundPathsComponent } from '../../../shared/backgraund';
 import gsap from 'gsap';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -18,7 +16,6 @@ import { ToastService } from '@app/infraestructure/lib/toast/toast.service';
 import { QueryParams } from './components/bento/1';
 import { InformationComponent } from './components/information';
 import { ButtonChangeTheme } from '../../../shared/ui/button.theme';
-import { InitialFormLogin } from './components/forms/initial.form';
 import { RouteParamsService } from '@app/infraestructure/global/route-params.service';
 import { FormStateService } from '@app/infraestructure/global/form-state.service';
 import { FormContainerComponent } from './components/form-container';
@@ -26,7 +23,6 @@ import { FormContainerComponent } from './components/form-container';
 @Component({
   selector: 'app-login',
   imports: [
-    TitleLoginComponent,
     BackgroundPathsComponent,
     ReactiveFormsModule,
     CommonModule,
@@ -48,7 +44,7 @@ import { FormContainerComponent } from './components/form-container';
         <div
           class="flex justify-center items-center flex-col h-full p-8 w-full"
         >
-          <background-paths />
+          <background-paths class="z-10" />
 
           <form-container
             class="w-full h-full flex justify-center items-center"
