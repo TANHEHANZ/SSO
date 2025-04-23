@@ -13,14 +13,18 @@ import gsap from 'gsap';
   template: `
     <div
       #layoutContainer
-      class="min-h-screen bg-gray-100 dark:bg-gray-900 grid flex-1 w-full transition-all duration-300"
+      class="min-h-screen bg-gray-50 dark:bg-gray-900 grid w-full transition-all duration-300"
       [style.gridTemplateColumns]="'auto 1fr'"
     >
       <app-nav />
 
-      <main class=" bg-primary-backgraund">
+      <main
+        class="bg-gray-100 dark:bg-gray-800 transition-colors duration-300 h-full"
+      >
         <app-header></app-header>
-        <router-outlet></router-outlet>
+        <div class="p-6 ">
+          <router-outlet></router-outlet>
+        </div>
       </main>
     </div>
   `,

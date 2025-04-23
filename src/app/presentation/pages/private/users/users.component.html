@@ -1,1 +1,42 @@
-<p>users works!</p>
+<section class="flex flex-col gap-4">
+  <div class="flex justify-between items-center mt-4">
+    <h1 class="font-bold text-3xl">Usuarios</h1>
+    <app-button variant="primary">
+      <i-lucide [img]="Plus"></i-lucide>
+      crear contacto</app-button
+    >
+  </div>
+  <div
+    class="w-full h-full rounded-2xl border min-h-[75dvh] bg-white dark:bg-gray-800 p-6"
+  >
+    <section class="flex justify-between gap-2 w-full mb-4">
+      <app-input label="search" />
+      <div class="flex gap-2 text-gray-500">
+        <button
+          class="py-1 px-2 border flex gap-2 justify-center items-center rounded-lg"
+        >
+          <i-lucide [img]="ListFilter" /> Filter
+        </button>
+        <button
+          class="py-1 px-2 border flex gap-2 justify-center items-center rounded-lg"
+        >
+          <i-lucide [img]="SlidersHorizontal" />Ordenar por
+        </button>
+      </div>
+    </section>
+    <div>
+      <ag-grid-angular
+        class="ag-theme-alpine h-[600px] w-full dark:bg-gray-800"
+        [rowData]="rowData"
+        [columnDefs]="columnDefs"
+        [defaultColDef]="defaultColDef"
+        [pagination]="true"
+        [paginationAutoPageSize]="true"
+        [rowSelection]="rowSelection"
+        (selectionChanged)="onSelectionChanged($event)"
+        [rowMultiSelectWithClick]="true"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+</section>

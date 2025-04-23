@@ -21,7 +21,7 @@ import { CommonModule } from '@angular/common';
         [value]="value"
         (input)="onInput($event)"
         (blur)="onBlur()"
-        class="block px-2.5 pb-3.5 pt-6 w-full min-w-96 text-sm 
+        class="block px-2.5 pb-3.5 pt-4 w-full min-w-96 text-sm 
         bg-transparent rounded-lg border border-gray-300 
         appearance-none focus:outline-none focus:ring-0 
         focus:border-primary-theme_orage peer

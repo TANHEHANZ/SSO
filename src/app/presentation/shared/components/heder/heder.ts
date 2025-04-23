@@ -18,7 +18,7 @@ import { NavStateService } from '@app/infraestructure/global/nav.service';
   imports: [CommonModule, LucideAngularModule, RouterModule],
   template: `
     <div
-      class="w-full bg-white h-[8dvh] border border-b flex justify-end items-center p-4"
+      class="w-full bg-white dark:bg-gray-800  h-[8dvh]  border-b dark:border-b-gray-500 flex justify-between items-center p-4"
     >
       <button
         (click)="toggleNav()"

@@ -17,8 +17,16 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule, NavigationComponent],
   template: `
-    <nav class="bg-white dark:bg-gray-800 shadow h-full border border-r">
-      <h1 class="p-4 text-2xl min-h-[120px]">logo GAMC</h1>
+    <nav
+      class="bg-white dark:bg-gray-800 shadow h-full  border-r dark:border-r-gray-500"
+    >
+      <h1 class="p-4 text-2xl min-h-[120px] w-full">
+        <img
+          src="./assets/images/logo cochabamba.png"
+          alt="Logo"
+          class="h-[80px] object-cover"
+        />
+      </h1>
       <navigation-component [items]="navItems" title="Menu" />
     </nav>
   `,
