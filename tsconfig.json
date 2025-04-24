@@ -37,7 +37,9 @@
     "src/**/*.d.ts"
   ],
   "files": [
-    "src/app/infraestructure/models/globals/auth.d.ts"
+    "src/app/infraestructure/models/globals/auth.d.ts",
+    "src/app/infraestructure/models/globals/client.d.ts",
+    "src/app/infraestructure/models/global.d.ts"
   ],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

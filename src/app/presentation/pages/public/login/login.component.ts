@@ -36,6 +36,7 @@ import { FormContainerComponent } from './components/form-container';
     <change-theme />
     <main class="w-full h-screen overflow-hidden flex relative" #collapsed>
       <app-toast></app-toast>
+      <background-paths />
       <section
         class="flex-shrink-0 transition-all duration-500 ease-out"
         [style.width]="'500px'"
@@ -44,8 +45,6 @@ import { FormContainerComponent } from './components/form-container';
         <div
           class="flex justify-center items-center flex-col h-full p-8 w-full"
         >
-          <background-paths class="z-10" />
-
           <form-container
             class="w-full h-full flex justify-center items-center"
           />

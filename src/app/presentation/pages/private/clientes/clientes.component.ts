@@ -2,20 +2,18 @@ import { Component, inject, OnInit } from '@angular/core';
 import { InputComponent } from '../../../shared/ui/input';
 import { ButtonComponent } from '../../../shared/ui/button';
 import {
-  Dot,
-  Key,
   ListFilter,
   LucideAngularModule,
-  Pencil,
   Plus,
   SlidersHorizontal,
-  Trash2,
 } from 'lucide-angular';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, RowSelectionOptions } from 'ag-grid-community';
 import { ClientService } from '@app/infraestructure/services/client.service';
 import { StatusCellRenderer } from '@app/presentation/shared/ui/status';
 import { ActionsCellRenderer } from '@app/presentation/shared/ui/actions';
+import ApexCharts from 'apexcharts';
+
 @Component({
   selector: 'app-clientes',
   standalone: true,
@@ -28,6 +26,15 @@ import { ActionsCellRenderer } from '@app/presentation/shared/ui/actions';
     ActionsCellRenderer,
   ],
   providers: [ClientService],
+  styles: [
+    `
+      :host {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+    `,
+  ],
 })
 export class ClientesCompoent implements OnInit {
   readonly Plus = Plus;
@@ -38,6 +45,7 @@ export class ClientesCompoent implements OnInit {
   rowData: any[] = [];
   ngOnInit(): void {
     this.loadClioents();
+    this.initializeChart();
   }
   loadClioents() {
     this.clientService.request('GET v1/api/client').subscribe({
@@ -79,13 +87,6 @@ export class ClientesCompoent implements OnInit {
         return new Date(params.value).toLocaleDateString();
       },
     },
-    {
-      headerName: 'Acciones',
-      field: 'actions',
-      sortable: false,
-      filter: false,
-      cellRenderer: ActionsCellRenderer,
-    },
   ];
 
   defaultColDef: ColDef = {
@@ -94,21 +95,24 @@ export class ClientesCompoent implements OnInit {
     resizable: true,
     flex: 1,
   };
-  context = { componentParent: this };
-  onEdit(client: any) {
-    console.log('Edit client:', client);
-  }
+  initializeChart(): void {
+    const options = {
+      chart: {
+        type: 'bar',
+        height: 350,
+      },
+      series: [
+        {
+          name: 'Clients',
+          data: [10, 20, 30, 40, 50],
+        },
+      ],
+      xaxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+      },
+    };
 
-  onResetKey(client: any) {
-    console.log('Reset key for client:', client);
-  }
-
-  onDelete(client: any) {
-    console.log('Delete client:', client);
-  }
-
-  onSelectionChanged(event: any) {
-    const selectedRows = event.api.getSelectedRows();
-    console.log('Selected rows:', selectedRows);
+    const chart = new ApexCharts(document.querySelector('#chart'), options);
+    chart.render();
   }
 }

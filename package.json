@@ -19,6 +19,7 @@
     "@angular/router": "^19.2.0",
     "ag-grid-angular": "^33.2.4",
     "ag-grid-community": "^33.2.4",
+    "apexcharts": "^4.7.0",
     "gsap": "^3.12.7",
     "lucide-angular": "^0.488.0",
     "rxjs": "~7.8.0",

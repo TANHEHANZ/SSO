@@ -26,18 +26,18 @@ export class ButtonComponent {
     focus:ring-4 focus:outline-none
     disabled:opacity-50 disabled:cursor-not-allowed
     flex flex-row 
-    items-center justify-center gap-2 px-[32px] py-[16px]  rounded-full z-10
+    items-center justify-center gap-2 px-[32px] py-[14px]  rounded-xl z-10
     `;
   protected variantClasses: Record<string, string> = {
     primary:
-      'bg-primary-theme_purple text-white hover:bg-primary-theme_purple/90 dark:hover:bg-primary-theme_purple/80 dark:bg-primary-theme_purple/60 w-full',
+      'bg-primary-theme_cian text-white hover:bg-primary-theme_cian/90 dark:hover:bg-primary-theme_cian/80 dark:bg-primary-theme_cian/60 w-full',
     secondary:
-      'bg-transparent text-primary-theme_purple hover:bg-indigo-300/20 border border-primary-theme_purple',
+      'bg-transparent text-primary-theme_cian hover:bg-indigo-300/20 border border-primary-theme_cian',
     danger:
       'bg-red-600 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800',
     terteary:
-      'bg-indigo-300/20 text-primary-theme_purple hover:bg-gray-100 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700',
+      'bg-indigo-300/20 text-primary-theme_cian hover:bg-gray-100 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700',
     olther:
-      'bg-primary-theme_purple/10 text-white hover:bg-slate-800 border border-primary-theme_purple/30',
+      'bg-primary-theme_cian/10 text-white hover:bg-slate-800 border border-primary-theme_cian/30',
   };
 }

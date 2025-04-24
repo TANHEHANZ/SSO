@@ -5,7 +5,6 @@ import { NavComponent } from '../../shared/components/nav/nav.component';
 import { Header } from '../../shared/components/heder/heder';
 import { NavStateService } from '@app/infraestructure/global/nav.service';
 import gsap from 'gsap';
-
 @Component({
   selector: 'app-admin-layout',
   standalone: true,
@@ -22,7 +21,7 @@ import gsap from 'gsap';
         class="bg-gray-100 dark:bg-gray-800 transition-colors duration-300 h-full"
       >
         <app-header></app-header>
-        <div class="p-6 ">
+        <div class="p-6">
           <router-outlet></router-outlet>
         </div>
       </main>
