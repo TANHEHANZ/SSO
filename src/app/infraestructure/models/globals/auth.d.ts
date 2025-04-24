@@ -6,18 +6,21 @@ declare global {
   namespace API_ROUTES {
     interface AUTH_GOOGLE {
       'user/google': {
+        method: 'GET';
         data: GoogleAuthResponseType;
         query: QueryGoogleType;
       };
     }
     interface AUTH_CREDENTIALS {
       'user/credential': {
+        method: 'GET';
         data: GoogleAuthResponseType;
         query: QueryGoogleType;
       };
     }
     interface AUTH_CI {
       'user/ci': {
+        method: 'GET';
         data: GoogleAuthResponseType;
         query: QueryGoogleType;
       };
