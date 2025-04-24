@@ -1,14 +1,19 @@
 import { Component } from '@angular/core';
 import { NavigationComponent } from '../navigation';
 import {
+  ChartColumnDecreasing,
+  ChartPie,
   FileText,
   LayoutDashboard,
   Monitor,
+  ScanEye,
   Settings,
   Shield,
-  ShieldEllipsis,
   ShieldX,
+  SquareKanban,
+  TriangleAlert,
   UserRound,
+  UserRoundCog,
 } from 'lucide-angular';
 import { CommonModule } from '@angular/common';
 
@@ -27,47 +32,79 @@ import { CommonModule } from '@angular/common';
           class="h-[80px] object-cover"
         />
       </h1>
-      <navigation-component [items]="navItems" title="Menu" />
+      <navigation-component [items]="navItemsReportes" title="Graficas" />
+      <navigation-component [items]="navItemsGestion" title="Entidades" />
+      <navigation-component
+        [items]="navItemsConfiguraciones"
+        title="Configuraciones"
+      />
     </nav>
   `,
 })
 export class NavComponent {
-  readonly navItems = [
+  readonly navItemsReportes = [
     {
-      path: '/admin/dashboard',
-      label: 'Dashboard',
-      icon: LayoutDashboard,
+      path: '/admin/reportes',
+      label: 'Reportes',
+      icon: ChartColumnDecreasing,
+      children: [
+        {
+          path: '/admin/dashboard/reports',
+          label: 'Gráficas',
+          icon: ChartPie,
+        },
+        {
+          path: '/admin/dashboard/exports',
+          label: 'Exportaciones',
+          icon: FileText,
+        },
+        {
+          path: '/admin/dashboard/alert',
+          label: 'Alertas',
+          icon: TriangleAlert,
+        },
+      ],
     },
+  ];
+
+  readonly navItemsGestion = [
     {
-      path: '/admin/users',
+      path: '/admin/usuarios',
       label: 'Usuarios',
       icon: UserRound,
     },
-
     {
       path: '/admin/clientes',
       label: 'Clientes',
       icon: Monitor,
     },
+  ];
+
+  readonly navItemsConfiguraciones = [
     {
-      path: '/admin/settings',
+      path: '/admin/configuraciones',
       label: 'Configuraciones',
       icon: Settings,
       children: [
         {
-          path: '/admin/settings/roles',
-          label: 'Roles y Permissions',
-          icon: Shield,
+          path: '/admin/configuraciones/parametros',
+          label: 'Configuraciones generales',
+          icon: Settings,
         },
         {
-          path: '/admin/settings/audit',
-          label: 'Audit Logs',
-          icon: FileText,
+          path: '/admin/configuraciones/roles',
+          label: 'Roles',
+          icon: UserRoundCog,
         },
         {
-          path: '/admin/settings/ips',
-          label: 'ip bloqueados',
-          icon: ShieldX,
+          path: '/admin/configuraciones/permisos',
+          label: 'Permisos',
+          icon: UserRoundCog,
+        },
+        {
+          path: '/admin/configuraciones/auditoria',
+          label: 'Auditoría',
+          icon: ScanEye,
         },
       ],
     },

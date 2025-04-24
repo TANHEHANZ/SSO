@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AdminLayoutComponent } from './layout.component';
+
 export const ADMIN_ROUTES: Routes = [
   {
     path: '',
@@ -7,10 +8,34 @@ export const ADMIN_ROUTES: Routes = [
     children: [
       {
         path: 'dashboard',
+        children: [
+          {
+            path: 'reports',
+            loadComponent: () =>
+              import('./dashboard/reportes/reportes.component').then(
+                (m) => m.ReportesComponent
+              ),
+          },
+          {
+            path: 'alert',
+            loadComponent: () =>
+              import('./dashboard/alert/alert.component').then(
+                (m) => m.AlertComponent
+              ),
+          },
+          {
+            path: 'exports',
+            loadComponent: () =>
+              import('./dashboard/exports/exports.component').then(
+                (m) => m.ExportsComponent
+              ),
+          },
+        ],
+      },
+      {
+        path: 'usuarios',
         loadComponent: () =>
-          import('./dashboard/dashboard.component').then(
-            (m) => m.DashboardComponent
-          ),
+          import('./users/users.component').then((m) => m.UsersComponent),
       },
       {
         path: 'clientes',
@@ -20,18 +45,15 @@ export const ADMIN_ROUTES: Routes = [
           ),
       },
       {
-        path: 'users',
-        loadComponent: () =>
-          import('./users/users.component').then((m) => m.UsersComponent),
-      },
-      {
-        path: 'profile',
-        loadComponent: () =>
-          import('./profile/profile.component').then((m) => m.ProfileComponent),
-      },
-      {
-        path: 'settings',
+        path: 'configuraciones',
         children: [
+          {
+            path: 'parametros',
+            loadComponent: () =>
+              import('./settings/settings/settings.component').then(
+                (m) => m.SettingsComponent
+              ),
+          },
           {
             path: 'roles',
             loadComponent: () =>
@@ -40,24 +62,24 @@ export const ADMIN_ROUTES: Routes = [
               ),
           },
           {
-            path: 'audit',
+            path: 'permisos',
             loadComponent: () =>
-              import('./settings/audit/audit.component').then(
-                (m) => m.AuditComponent
+              import('./settings/permissions/permissions.component').then(
+                (m) => m.PermissionsComponent
               ),
           },
           {
-            path: 'ips',
+            path: 'auditoria',
             loadComponent: () =>
-              import('./settings/ips/ips.component').then(
-                (m) => m.IpsComponent
+              import('./settings/audit/audit.component').then(
+                (m) => m.AuditComponent
               ),
           },
         ],
       },
       {
         path: '',
-        redirectTo: 'dashboard',
+        redirectTo: 'reportes',
         pathMatch: 'full',
       },
     ],
