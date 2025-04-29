@@ -20,12 +20,12 @@ import { NavStateService } from '@app/infraestructure/global/nav.service';
     <div
       class="w-full bg-white dark:bg-gray-800  h-[8dvh]  border-b dark:border-b-gray-500 flex justify-between items-center p-4"
     >
-      <button
-        (click)="toggleNav()"
-        class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-      >
-        <i-lucide [img]="menu" [size]="24" />
-      </button>
+      <img
+        [src]="'./assets/images/logo.png'"
+        alt="Logo"
+        class="h-full w-auto object-contain aspect-[3/1] transition-all duration-300 "
+      />
+
       <div class="relative">
         <div
           (click)="toggleDropdown()"

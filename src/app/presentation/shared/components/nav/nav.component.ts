@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NavigationComponent } from '../navigation';
 import {
   ChartColumnDecreasing,
   ChartPie,
   FileText,
+  LucideAngularModule,
   Monitor,
   ScanEye,
   Settings,
@@ -12,32 +13,88 @@ import {
   UserRoundCog,
 } from 'lucide-angular';
 import { CommonModule } from '@angular/common';
+import { NavStateService } from '@app/infraestructure/global/nav.service';
+import { RouterLink } from '@angular/router';
+import { SidebarMenuComponent } from './sidebar-menu.component';
 
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [CommonModule, NavigationComponent],
+  imports: [
+    CommonModule,
+    NavigationComponent,
+    RouterLink,
+    LucideAngularModule,
+    SidebarMenuComponent,
+  ],
   template: `
-    <nav
-      class="bg-white dark:bg-gray-800 shadow h-full  border-r dark:border-r-gray-500"
-    >
-      <h1 class="p-4 text-2xl min-h-[120px] w-full">
-        <img
-          src="./assets/images/logo cochabamba.png"
-          alt="Logo"
-          class="h-[80px] object-cover"
+    <nav class="bg-white dark:bg-dark flex h-full">
+      <div>
+        <navigation-component
+          label="Graficas"
+          [icon]="Chart"
+          [active]="activeSidebar === 'reports'"
+          color="#482778"
+          (onClick)="toggleSidebar('reports')"
         />
-      </h1>
-      <navigation-component [items]="navItemsReportes" title="Graficas" />
-      <navigation-component [items]="navItemsGestion" title="Entidades" />
-      <navigation-component
-        [items]="navItemsConfiguraciones"
-        title="Configuraciones"
-      />
+        <navigation-component
+          label="usuarios"
+          [icon]="User"
+          [active]="activeSidebar === 'users'"
+          color="#F9B100"
+          (onClick)="toggleSidebar('users')"
+        />
+        <navigation-component
+          label="configuracion"
+          [icon]="Settings"
+          [active]="activeSidebar === 'settings'"
+          color="#EA547C"
+          (onClick)="toggleSidebar('settings')"
+        />
+      </div>
+
+      <div
+        class="transition-all duration-300 overflow-hidden dark:bg-dark border-l border-gray-100 dark:border-gray-700"
+        [class.w-0]="!activeSidebar"
+        [class.w-64]="activeSidebar"
+      >
+        @if (activeSidebar === 'reports') {
+        <app-sidebar-menu
+          [items]="navItemsReportes[0].children"
+          color="#482778"
+        />
+        } @if (activeSidebar === 'users') {
+        <app-sidebar-menu [items]="navItemsGestion" color="#F9B100" />
+        } @if (activeSidebar === 'settings') {
+        <app-sidebar-menu
+          [items]="navItemsConfiguraciones[0].children"
+          color="#EA547C"
+        />
+        }
+      </div>
     </nav>
   `,
 })
-export class NavComponent {
+export class NavComponent implements OnInit {
+  collapsed = false;
+  private navState = inject(NavStateService);
+  readonly Settings = Settings;
+  readonly Chart = ChartColumnDecreasing;
+  readonly User = UserRound;
+  activeSidebar: 'reports' | 'users' | 'settings' | null = null;
+
+  toggleSidebar(type: 'reports' | 'users' | 'settings') {
+    this.activeSidebar = this.activeSidebar === type ? null : type;
+  }
+
+  ngOnInit() {
+    this.navState.isExpanded$.subscribe(
+      (isExpanded) => (this.collapsed = !isExpanded)
+    );
+  }
+  handleClick() {
+    console.log('se pulso aca ');
+  }
   readonly navItemsReportes = [
     {
       path: '/admin/reportes',
