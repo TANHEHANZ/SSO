@@ -11,6 +11,7 @@ module.exports = {
         'arciform': ['Arciform', 'sans-serif'],
       },
       colors: {
+        dark:"#2B2D39",
         primary: {
           neumo: "#e0e5ec",
           theme_orage: {
