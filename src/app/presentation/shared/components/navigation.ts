@@ -22,11 +22,11 @@ interface NavItem {
       <div
         (click)="onClick.emit()"
         [class.bg-opacity-10]="active"
+        [class.text-white]="active"
         [style.backgroundColor]="active ? color + '1a' : ''"
         [style.color]="active ? color : ''"
         class="p-4 flex justify-between cursor-pointer text-gray-500 dark:text-gray-300
-          hover:text-primary-theme_cian transition-all duration-200 rounded-lg"
-        [style.--hover-color]="color"
+         transition-all duration-200 rounded-lg hover:bg-opacity-20 "
       >
         <i-lucide
           *ngIf="icon"
@@ -42,6 +42,6 @@ export class NavigationComponent {
   @Input() label = '';
   @Input() icon: any;
   @Input() active: boolean = false;
-  @Input() color: string = '#4AC1E0'; // Default color
+  @Input() color: string = '';
   @Output() onClick = new EventEmitter<void>();
 }

@@ -11,12 +11,12 @@ import { Header } from '../../shared/components/heder/heder';
   template: `
     <div
       #layoutContainer
-      class="min-h-screen bg-gray-50 dark:bg-gray-900  w-full transition-all duration-300"
+      class="min-h-screen bg-gray-50 dark:bg-dark-background  w-full transition-all duration-300  "
     >
       <app-header></app-header>
       <main class="flex flex-1 h-[calc(100vh-8dvh)]">
         <app-nav class="h-full" />
-        <div class="p-6 flex-1 overflow-auto">
+        <div class="p-6 flex-1 overflow-auto ">
           <router-outlet></router-outlet>
         </div>
       </main>

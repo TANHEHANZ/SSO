@@ -16,6 +16,8 @@ import { CommonModule } from '@angular/common';
 import { NavStateService } from '@app/infraestructure/global/nav.service';
 import { RouterLink } from '@angular/router';
 import { SidebarMenuComponent } from './sidebar-menu.component';
+import { ColorService } from '../../../../infraestructure/global/colors.service';
+import { colors } from '../../../../infraestructure/config/constants';
 
 @Component({
   selector: 'app-nav',
@@ -23,77 +25,72 @@ import { SidebarMenuComponent } from './sidebar-menu.component';
   imports: [
     CommonModule,
     NavigationComponent,
-    RouterLink,
     LucideAngularModule,
     SidebarMenuComponent,
   ],
   template: `
-    <nav class="bg-white dark:bg-dark flex h-full">
-      <div>
+    <nav class="flex h-full">
+      <div
+        class="w-[100px] bg-white dark:bg-dark-background border-r border-gray-300 dark:border-gray-900"
+      >
         <navigation-component
           label="Graficas"
           [icon]="Chart"
           [active]="activeSidebar === 'reports'"
-          color="#482778"
-          (onClick)="toggleSidebar('reports')"
+          [color]="colors[0]"
+          (onClick)="toggleSidebar('reports', colors[0])"
         />
         <navigation-component
           label="usuarios"
           [icon]="User"
           [active]="activeSidebar === 'users'"
-          color="#F9B100"
-          (onClick)="toggleSidebar('users')"
+          [color]="colors[1]"
+          (onClick)="toggleSidebar('users', colors[1])"
         />
         <navigation-component
-          label="configuracion"
+          label="config..."
           [icon]="Settings"
           [active]="activeSidebar === 'settings'"
-          color="#EA547C"
-          (onClick)="toggleSidebar('settings')"
+          [color]="colors[2]"
+          (onClick)="toggleSidebar('settings', colors[2])"
         />
       </div>
 
       <div
-        class="transition-all duration-300 overflow-hidden dark:bg-dark border-l border-gray-100 dark:border-gray-700"
+        class="transition-all duration-300 overflow-hidden dark:bg-dark"
         [class.w-0]="!activeSidebar"
         [class.w-64]="activeSidebar"
       >
-        @if (activeSidebar === 'reports') {
         <app-sidebar-menu
+          *ngIf="activeSidebar === 'reports'"
           [items]="navItemsReportes[0].children"
-          color="#482778"
-        />
-        } @if (activeSidebar === 'users') {
-        <app-sidebar-menu [items]="navItemsGestion" color="#F9B100" />
-        } @if (activeSidebar === 'settings') {
+          [color]="currentColorClass"
+        ></app-sidebar-menu>
         <app-sidebar-menu
+          *ngIf="activeSidebar === 'users'"
+          [items]="navItemsGestion"
+          [color]="currentColorClass"
+        ></app-sidebar-menu>
+        <app-sidebar-menu
+          *ngIf="activeSidebar === 'settings'"
           [items]="navItemsConfiguraciones[0].children"
-          color="#EA547C"
-        />
-        }
+          [color]="currentColorClass"
+        ></app-sidebar-menu>
       </div>
     </nav>
   `,
 })
-export class NavComponent implements OnInit {
-  collapsed = false;
-  private navState = inject(NavStateService);
-  readonly Settings = Settings;
+export class NavComponent {
   readonly Chart = ChartColumnDecreasing;
   readonly User = UserRound;
+  readonly Settings = Settings;
+  readonly colors = colors;
   activeSidebar: 'reports' | 'users' | 'settings' | null = null;
+  currentColorClass: string = '';
 
-  toggleSidebar(type: 'reports' | 'users' | 'settings') {
+  toggleSidebar(type: 'reports' | 'users' | 'settings', colorClass: string) {
     this.activeSidebar = this.activeSidebar === type ? null : type;
-  }
-
-  ngOnInit() {
-    this.navState.isExpanded$.subscribe(
-      (isExpanded) => (this.collapsed = !isExpanded)
-    );
-  }
-  handleClick() {
-    console.log('se pulso aca ');
+    this.currentColorClass = colorClass;
   }
   readonly navItemsReportes = [
     {

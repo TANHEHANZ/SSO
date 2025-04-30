@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ButtonComponent } from '../../../shared/ui/button';
 import {
   ListFilter,
@@ -9,6 +9,9 @@ import {
 import { InputComponent } from '../../../shared/ui/input';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, RowSelectionOptions } from 'ag-grid-community';
+import { ColorService } from '../../../../infraestructure/global/colors.service';
+import { Subscription } from 'rxjs';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-users',
   imports: [
@@ -16,13 +19,32 @@ import { ColDef, RowSelectionOptions } from 'ag-grid-community';
     LucideAngularModule,
     InputComponent,
     AgGridAngular,
+    CommonModule,
   ],
   templateUrl: './users.component.html',
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit, OnDestroy {
   readonly Plus = Plus;
   readonly ListFilter = ListFilter;
   readonly SlidersHorizontal = SlidersHorizontal;
+  color = '#000';
+  title = 'Usuarios';
+  private colorSubscription!: Subscription;
+  colorS = inject(ColorService);
+
+  ngOnInit(): void {
+    this.colorSubscription = this.colorS.color$.subscribe((color) => {
+      this.color = color;
+      console.log('color', this.color);
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.colorSubscription) {
+      this.colorSubscription.unsubscribe();
+    }
+  }
+
   rowSelection: RowSelectionOptions | 'single' | 'multiple' = {
     mode: 'multiRow',
   };
