@@ -10,8 +10,8 @@ module.exports = {
       },
       colors: {
         dark: {
-          background: "#020717",
-          surface: "#1F293A",
+          background: "#1A1F29",
+          surface: "#262D38",
           text: "#F6F6F8",
           accent: "#0E162A",
         },

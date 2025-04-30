@@ -18,11 +18,7 @@ import { ToastService } from '@app/infraestructure/lib/toast/toast.service';
     class=" w-full flex flex-col justify-center items-center "
   >
     <title-login />
-    <app-button
-      [type]="'submit'"
-      [variant]="'terteary'"
-      (onClick)="onSubmit('google')"
-    >
+    <app-button [type]="'submit'" (onClick)="onSubmit('google')">
       <app-google-icon [size]="24" />
       Iniciar secíon con google
     </app-button>

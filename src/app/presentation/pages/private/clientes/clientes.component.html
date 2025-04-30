@@ -1,35 +1,24 @@
-<section class="flex flex-col gap-4 w-full">
-  <div class="flex justify-between items-center mt-4">
-    <h1 class="font-sans text-3xl text-gray-500">Sistemas Clientes</h1>
-    <app-button variant="primary">
-      <i-lucide [img]="Plus"></i-lucide>
-      crear cliente
-    </app-button>
-  </div>
+<wraper-component
+  title="Sistemas clientes"
+  [color]="color"
+  [breadcrumbs]="['Usuarios', 'Clientes']"
+  class="flex flex-col flex-1 h-full w-full"
+>
+  <!-- <app-button variant="primary" [color]="color">
+    <i-lucide [img]="Plus"></i-lucide>
+    crear cliente
+  </app-button> -->
+  <div id="chart" class="mt-6"></div>
 
-  <article class="w-full flex gap-4 justify-evenly">
-    @for (item of [1,2,3,4,5,6,7,8,9,10,11,12]; track $index) {
-
-    <div
-      class="h-24 bg-primary-theme_purple text-white grid content-center p-2 rounded-xl w-14 text-center"
-    >
-      {{ item }}
-    </div>
-    }
-  </article>
   <div
-    class="h-full rounded-2xl border bg-white dark:bg-gray-800 p-6 grid grid-cols-2 gap-4"
+    class="flex-1 mt-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border dark:border-gray-700 overflow-hidden"
   >
-    <ag-grid-angular
-      class="ag-theme-alpine h-[400px] w-full dark:bg-gray-800 col-span-2"
-      [rowData]="rowData"
-      [columnDefs]="columnDefs"
-      [defaultColDef]="defaultColDef"
-      [pagination]="true"
-      [paginationAutoPageSize]="true"
-      [rowSelection]="rowSelection"
-      [rowMultiSelectWithClick]="true"
-    >
-    </ag-grid-angular>
+    <app-table
+      [color]="color"
+      [data]="rowData"
+      [columns]="columns"
+      (onEdit)="handleEdit($event)"
+      (onView)="handleView($event)"
+    ></app-table>
   </div>
-</section>
+</wraper-component>

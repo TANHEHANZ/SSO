@@ -1,43 +1,51 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-button',
   standalone: true,
+  imports: [CommonModule],
   template: `
     <button
       [type]="type"
-      [class]="baseClasses + ' ' + variantClasses[variant]"
+      [class]="baseClasses"
       [disabled]="disabled"
+      [style.--button-color]="color"
+      [style.backgroundColor]="variant === 'primary' ? color : 'transparent'"
+      [style.color]="variant === 'primary' ? 'white' : color"
+      [style.borderColor]="variant === 'secondary' ? color : 'transparent'"
+      [ngStyle]="{
+        '&:hover': {
+          'background-color':
+            variant === 'primary' ? color + 'cc' : color + '1a'
+        }
+      }"
       (click)="onClick.emit($event)"
     >
       <ng-content></ng-content>
     </button>
   `,
+  styles: [
+    `
+      button:hover {
+        background-color: var(--button-color) + '1a';
+      }
+    `,
+  ],
 })
 export class ButtonComponent {
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
-  @Input() variant: 'primary' | 'secondary' | 'danger' | 'terteary' | 'olther' =
-    'primary';
+  @Input() variant: 'primary' | 'secondary' = 'primary';
   @Input() disabled = false;
+  @Input() color: string = '#482778';
   @Output() onClick = new EventEmitter<MouseEvent>();
 
   protected baseClasses = `
-    font-medium  transition-colors duration-200
+    font-medium transition-colors duration-200
     focus:ring-4 focus:outline-none
     disabled:opacity-50 disabled:cursor-not-allowed
     flex flex-row 
-    items-center justify-center gap-2 px-[32px] py-[14px]  rounded-xl z-10
-    `;
-  protected variantClasses: Record<string, string> = {
-    primary:
-      'bg-primary-theme_cian text-white hover:bg-primary-theme_cian/90 dark:hover:bg-primary-theme_cian/80 dark:bg-primary-theme_cian/60 w-full',
-    secondary:
-      'bg-transparent text-primary-theme_cian hover:bg-indigo-300/20 border border-primary-theme_cian',
-    danger:
-      'bg-red-600 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800',
-    terteary:
-      'bg-indigo-300/20 text-primary-theme_cian hover:bg-gray-100 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700',
-    olther:
-      'bg-primary-theme_cian/10 text-white hover:bg-slate-800 border border-primary-theme_cian/30',
-  };
+    items-center justify-center gap-2 px-[32px] py-[14px] rounded-xl
+    border
+  `;
 }

@@ -31,7 +31,7 @@ import { colors } from '../../../../infraestructure/config/constants';
   template: `
     <nav class="flex h-full">
       <div
-        class="w-[100px] bg-white dark:bg-dark-background border-r border-gray-300 dark:border-gray-900"
+        class="w-[100px] bg-white dark:bg-dark-background border-r  border-gray-100 dark:border-gray-900"
       >
         <navigation-component
           label="Graficas"
@@ -138,7 +138,7 @@ export class NavComponent {
       children: [
         {
           path: '/admin/configuraciones/parametros',
-          label: 'Configuraciones generales',
+          label: 'generales',
           icon: Settings,
         },
         {

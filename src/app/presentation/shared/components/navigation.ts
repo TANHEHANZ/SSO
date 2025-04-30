@@ -23,10 +23,10 @@ interface NavItem {
         (click)="onClick.emit()"
         [class.bg-opacity-10]="active"
         [class.text-white]="active"
-        [style.backgroundColor]="active ? color + '1a' : ''"
+        [style.backgroundColor]="active ? color + '2a' : ''"
         [style.color]="active ? color : ''"
         class="p-4 flex justify-between cursor-pointer text-gray-500 dark:text-gray-300
-         transition-all duration-200 rounded-lg hover:bg-opacity-20 "
+         transition-all duration-200 rounded-xl hover:bg-opacity-20 "
       >
         <i-lucide
           *ngIf="icon"

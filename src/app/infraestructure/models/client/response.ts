@@ -10,10 +10,10 @@ const OAuthClientScopePermissionSchema = z.object({
   scope: ScopeSchema,
 });
 
-const ClientResponseSchema = z.object({
+export const ClientResponseSchema = z.object({
   id: z.string().uuid(),
-  client_id: z.string(),
-  client_secret: z.string(),
+  client_id: z.string().nullable(),
+  client_secret: z.string().nullable(),
   name: z.string(),
   description: z.string(),
   redirect_uris: z.array(z.string().url()),
@@ -26,3 +26,6 @@ const ClientResponseSchema = z.object({
 });
 
 export type ClientResponseDTO = z.infer<typeof ClientResponseSchema>;
+
+export const ClientArrayResponseSchema = z.array(ClientResponseSchema);
+export type ClientArrayResponseDTO = z.infer<typeof ClientArrayResponseSchema>;

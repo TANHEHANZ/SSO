@@ -1,37 +1,31 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { InputComponent } from '../../../shared/ui/input';
-import { ButtonComponent } from '../../../shared/ui/button';
 import {
   ListFilter,
   LucideAngularModule,
   Plus,
   SlidersHorizontal,
 } from 'lucide-angular';
-import { AgGridAngular } from 'ag-grid-angular';
-import { ColDef, RowSelectionOptions } from 'ag-grid-community';
 import { ClientService } from '@app/infraestructure/services/client.service';
-import { StatusCellRenderer } from '@app/presentation/shared/ui/status';
-import { ActionsCellRenderer } from '@app/presentation/shared/ui/actions';
+import { colors } from '@app/infraestructure/config/constants';
+import { WraperComponent } from '../../../shared/components/wraper.component';
+import { ColumnDef } from '@tanstack/angular-table';
+import { TableComponent } from '../../../shared/components/table/table.component';
+import { ClientResponseDTO } from '@app/infraestructure/models/client/response';
+import { ToastService } from '@app/infraestructure/lib/toast/toast.service';
 import ApexCharts from 'apexcharts';
-
 @Component({
   selector: 'app-clientes',
   standalone: true,
   templateUrl: './clientes.component.html',
-  imports: [
-    InputComponent,
-    ButtonComponent,
-    LucideAngularModule,
-    AgGridAngular,
-    ActionsCellRenderer,
-  ],
+  imports: [LucideAngularModule, WraperComponent, TableComponent],
   providers: [ClientService],
   styles: [
     `
       :host {
+        display: flex;
+        flex-direction: column;
         height: 100%;
         width: 100%;
-        overflow: hidden;
       }
     `,
   ],
@@ -40,61 +34,76 @@ export class ClientesCompoent implements OnInit {
   readonly Plus = Plus;
   readonly ListFilter = ListFilter;
   readonly SlidersHorizontal = SlidersHorizontal;
-
-  private clientService = inject(ClientService);
-  rowData: any[] = [];
+  color: string = colors[1];
+  currentPage = 1;
+  totalPages = 1;
+  totalRows = 0;
+  pageSize = 5;
+  private clientS = inject(ClientService);
+  private toastS = inject(ToastService);
   ngOnInit(): void {
     this.loadClioents();
     this.initializeChart();
   }
   loadClioents() {
-    this.clientService.request('GET v1/api/client').subscribe({
-      next: (response) => {
-        this.rowData = response.data;
-        console.log(response);
+    this.clientS.getClients().subscribe({
+      next: (value) => {
+        this.rowData = value;
+      },
+      error: (err) => {
+        console.error('Error fetching clients:', err);
+        this.toastS.addToast({
+          title: 'Error',
+          description: 'Error al traer la informacion del cliente',
+          id: 'client-error',
+          type: 'error',
+        });
       },
     });
   }
-  rowSelection: RowSelectionOptions | 'single' | 'multiple' = {
-    mode: 'multiRow',
-  };
-  columnDefs: ColDef[] = [
+
+  rowData: ClientResponseDTO[] = [];
+  columns: ColumnDef<ClientResponseDTO>[] = [
     {
-      field: 'name',
-      headerName: 'Nombre',
-    },
-    { field: 'description', headerName: 'Descripción' },
-    { field: 'client_id', headerName: 'Client ID' },
-    { field: 'domain', headerName: 'Dominio' },
-    {
-      field: 'Status',
-      headerName: 'Estado',
-      cellRenderer: StatusCellRenderer,
+      accessorKey: 'name',
+      header: 'Nombre',
+      cell: (info) => info.getValue(),
     },
     {
-      field: 'oAuthClientScopePermission',
-      headerName: 'Scopes',
-      valueFormatter: (params) => {
-        return params.value
-          ?.map((permission: any) => permission.scope.name)
-          .join(', ');
-      },
+      accessorKey: 'description',
+      header: 'Descripción',
+      cell: (info) => info.getValue(),
     },
     {
-      field: 'created_at',
-      headerName: 'Fecha Creación',
-      valueFormatter: (params) => {
-        return new Date(params.value).toLocaleDateString();
-      },
+      accessorKey: 'client_id',
+      header: 'Client ID',
+      cell: (info) => info.getValue(),
+    },
+    {
+      accessorKey: 'domain',
+      header: 'Dominio',
+      cell: (info) => info.getValue(),
+    },
+    {
+      accessorKey: 'Status',
+      header: 'Estado',
+      cell: (info) => info.getValue(),
+    },
+    {
+      accessorKey: 'created_at',
+      header: 'Fecha Creación',
+      cell: (info) => new Date(info.getValue<string>()).toLocaleDateString(),
     },
   ];
+  handleEdit(clients: ClientResponseDTO[]) {
+    const client = clients[0];
+    console.log('Editing client:', client);
+  }
 
-  defaultColDef: ColDef = {
-    sortable: true,
-    filter: true,
-    resizable: true,
-    flex: 1,
-  };
+  handleView(client: ClientResponseDTO) {
+    console.log('Viewing client details:', client);
+  }
+
   initializeChart(): void {
     const options = {
       chart: {

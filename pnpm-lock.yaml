@@ -29,6 +29,9 @@ importers:
       '@angular/router':
         specifier: ^19.2.0
         version: 19.2.6(@angular/common@19.2.6(@angular/core@19.2.6(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.6(rxjs@7.8.2)(zone.js@0.15.0))(@angular/platform-browser@19.2.6(@angular/common@19.2.6(@angular/core@19.2.6(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.6(rxjs@7.8.2)(zone.js@0.15.0)))(rxjs@7.8.2)
+      '@tanstack/angular-table':
+        specifier: ^8.21.3
+        version: 8.21.3(@angular/core@19.2.6(rxjs@7.8.2)(zone.js@0.15.0))
       ag-grid-angular:
         specifier: ^33.2.4
         version: 33.2.4(@angular/common@19.2.6(@angular/core@19.2.6(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.6(rxjs@7.8.2)(zone.js@0.15.0))
@@ -1595,6 +1598,16 @@ packages:
     engines: {node: '>= 14.18'}
     peerDependencies:
       '@svgdotjs/svg.js': ^3.2.4
+
+  '@tanstack/angular-table@8.21.3':
+    resolution: {integrity: sha512-8VqEGObnTBNJm3qQSPy+WEGqjXDLesEPSnBTEHdbHFh1rMP1pQsgI85Dwy8OX4kB82wIDvJuw4LceGIXZEbotA==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      '@angular/core': '>=17'
+
+  '@tanstack/table-core@8.21.3':
+    resolution: {integrity: sha512-ldZXEhOBb8Is7xLs01fR3YEc3DERiz5silj8tnGkFZytt1abEvl/GhUmCE0PMLaMPTa3Jk4HbKmRlHmu+gCftg==}
+    engines: {node: '>=12'}
 
   '@tufjs/canonical-json@2.0.0':
     resolution: {integrity: sha512-yVtV8zsdo8qFHe+/3kw81dSLyF7D576A5cCFCi4X7B39tWT7SekaEFUnvnWJHz+9qO7qJTah1JbrDjWKqFtdWA==}
@@ -5986,6 +5999,14 @@ snapshots:
   '@svgdotjs/svg.select.js@4.0.2(@svgdotjs/svg.js@3.2.4)':
     dependencies:
       '@svgdotjs/svg.js': 3.2.4
+
+  '@tanstack/angular-table@8.21.3(@angular/core@19.2.6(rxjs@7.8.2)(zone.js@0.15.0))':
+    dependencies:
+      '@angular/core': 19.2.6(rxjs@7.8.2)(zone.js@0.15.0)
+      '@tanstack/table-core': 8.21.3
+      tslib: 2.8.1
+
+  '@tanstack/table-core@8.21.3': {}
 
   '@tufjs/canonical-json@2.0.0': {}
 
