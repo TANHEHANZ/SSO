@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { NavComponent } from '../../shared/components/nav/nav.component';
-import { Header } from '../../shared/components/heder/heder';
-import { ToastComponent } from '../../../infraestructure/lib/toast/toast.component';
+import { NavComponent } from '../../../../shared/components/nav/nav.component';
+import { Header } from '../../../../shared/components/heder/heder';
+import { ToastComponent } from '../../../../../infraestructure/lib/toast/toast.component';
 
 @Component({
   selector: 'app-admin-layout',

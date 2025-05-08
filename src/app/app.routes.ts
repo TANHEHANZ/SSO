@@ -9,8 +9,15 @@ export const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () =>
-      import('./presentation/pages/private/admin.routes').then(
+      import('./presentation/pages/private/roles/admin/admin.routes').then(
         (m) => m.ADMIN_ROUTES
+      ),
+  },
+  {
+    path: 'client',
+    loadChildren: () =>
+      import('./presentation/pages/private/roles/client/client.routes').then(
+        (m) => m.CLIENT_ROUTES
       ),
   },
 ];

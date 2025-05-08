@@ -8,6 +8,7 @@ import { ChevronRight, LucideAngularModule } from 'lucide-angular';
   imports: [CommonModule, LucideAngularModule],
   template: `
     <div class="flex flex-col gap-2 ">
+      <div></div>
       <h1 class="font-light text-4xl ">{{ title }}</h1>
       <div class="flex items-center gap-1 text-sm ">
         @for (item of breadcrumbs; track $index) { @if ($index > 0) {

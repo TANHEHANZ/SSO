@@ -7,12 +7,12 @@ import {
 } from 'lucide-angular';
 import { ClientService } from '@app/infraestructure/services/client.service';
 import { colors } from '@app/infraestructure/config/constants';
-import { WraperComponent } from '../../../shared/components/wraper.component';
 import { ColumnDef } from '@tanstack/angular-table';
-import { TableComponent } from '../../../shared/components/table/table.component';
 import { ClientResponseDTO } from '@app/infraestructure/models/client/response';
 import { ToastService } from '@app/infraestructure/lib/toast/toast.service';
 import ApexCharts from 'apexcharts';
+import { WraperComponent } from '../../../../../shared/components/wraper.component';
+import { TableComponent } from '../../../../../shared/components/table/table.component';
 @Component({
   selector: 'app-clientes',
   standalone: true,

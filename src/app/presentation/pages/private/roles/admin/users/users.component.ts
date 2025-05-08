@@ -1,24 +1,25 @@
 import { Component } from '@angular/core';
-import { ButtonComponent } from '../../../shared/ui/button';
 import {
   ListFilter,
   LucideAngularModule,
   Plus,
   SlidersHorizontal,
 } from 'lucide-angular';
-import { InputComponent } from '../../../shared/ui/input';
+
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, RowSelectionOptions } from 'ag-grid-community';
 import { CommonModule } from '@angular/common';
 import { colors } from '@app/infraestructure/config/constants';
+import { ButtonComponent } from '../../../../../shared/ui/button';
+import { InputComponent } from '../../../../../shared/ui/input';
 @Component({
   selector: 'app-users',
   imports: [
-    ButtonComponent,
     LucideAngularModule,
-    InputComponent,
     AgGridAngular,
     CommonModule,
+    ButtonComponent,
+    InputComponent,
   ],
   templateUrl: './users.component.html',
 })
