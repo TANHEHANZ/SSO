@@ -2,20 +2,30 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { COLOR_KEY } from '../config/constants';
 
+interface ColorMap {
+  [key: string]: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class ColorService {
-  private colorSubject: BehaviorSubject<string> = new BehaviorSubject<string>(
-    localStorage.getItem(COLOR_KEY) || '#FFFFFF'
-  );
+  private colorMapSubject = new BehaviorSubject<ColorMap>({});
+  colorMap$ = this.colorMapSubject.asObservable();
 
-  color$ = this.colorSubject.asObservable();
+  setColors(colors: ColorMap): void {
+    this.colorMapSubject.next(colors);
+    localStorage.setItem(COLOR_KEY, JSON.stringify(colors));
+  }
 
-  setColor(color: string): void {
-    if (this.colorSubject.value !== color) {
-      this.colorSubject.next(color);
-      localStorage.setItem(COLOR_KEY, color);
+  getColorByKey(key: string): string {
+    return this.colorMapSubject.value[key] || '#000';
+  }
+
+  initializeColors(): void {
+    const savedColors = localStorage.getItem(COLOR_KEY);
+    if (savedColors) {
+      this.colorMapSubject.next(JSON.parse(savedColors));
     }
   }
 }

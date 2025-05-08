@@ -5,6 +5,7 @@ import { ConfigService } from '@app/infraestructure/services/config.service';
 import { NavResponseDTO } from '@app/infraestructure/models/nav/response.nav';
 import { IconMapping, iconMapping } from '../../ui/icons/icon.component';
 import { Router } from '@angular/router';
+import { ColorService } from '@app/infraestructure/global/colors.service';
 @Component({
   selector: 'app-nav',
   standalone: true,
@@ -79,16 +80,31 @@ import { Router } from '@angular/router';
 })
 export class NavComponent implements OnInit {
   navS = inject(ConfigService);
+  colorS = inject(ColorService);
   navItems: NavResponseDTO = [];
   activeItemId: string | null = null;
   activeItem: any = null;
   childHovered: string | null = null;
   activeChildId: string | null = null;
   private router = inject(Router);
+
   ngOnInit(): void {
     this.navS.getAllNavItems().subscribe((res) => {
       this.navItems = res;
-      console.log(this.navItems);
+      const colorMap: Record<string, string> = {};
+      res.forEach((item: NavResponseDTO) => {
+        if (item.name && item.color) {
+          colorMap[item.name] = item.color;
+        }
+        item.children?.forEach((child: NavResponseDTO) => {
+          if (child.name && item.color) {
+            colorMap[child.name] = item.color;
+          }
+        });
+      });
+
+      // Set all colors at once
+      this.colorS.setColors(colorMap);
     });
   }
 
@@ -99,6 +115,7 @@ export class NavComponent implements OnInit {
     } else {
       this.activeItemId = item.id;
       this.activeItem = item;
+
       if (item.path && item.children?.length === 0) {
         this.router.navigate([item.path]);
       }
