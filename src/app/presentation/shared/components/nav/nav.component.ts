@@ -1,162 +1,116 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { NavigationComponent } from '../navigation';
-import {
-  ChartColumnDecreasing,
-  ChartPie,
-  FileText,
-  LucideAngularModule,
-  Monitor,
-  ScanEye,
-  Settings,
-  TriangleAlert,
-  UserRound,
-  UserRoundCog,
-} from 'lucide-angular';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
-import { NavStateService } from '@app/infraestructure/global/nav.service';
-import { RouterLink } from '@angular/router';
-import { SidebarMenuComponent } from './sidebar-menu.component';
-import { ColorService } from '../../../../infraestructure/global/colors.service';
-import { colors } from '../../../../infraestructure/config/constants';
-
+import { ConfigService } from '@app/infraestructure/services/config.service';
+import { NavResponseDTO } from '@app/infraestructure/models/nav/response.nav';
+import { IconMapping, iconMapping } from '../../ui/icons/icon.component';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [
-    CommonModule,
-    NavigationComponent,
-    LucideAngularModule,
-    SidebarMenuComponent,
-  ],
+  imports: [CommonModule, FontAwesomeModule],
   template: `
-    <nav class="flex h-full">
+    <nav class="flex h-full relative">
       <div
-        class="w-[100px] bg-white dark:bg-dark-background border-r  border-gray-100 dark:border-gray-900"
+        class="w-[100px] bg-white dark:bg-dark-background border-r border-gray-100 dark:border-gray-900 flex flex-col justify-start items-center gap-2 overflow-hidden pt-4"
       >
-        <navigation-component
-          label="Graficas"
-          [icon]="Chart"
-          [active]="activeSidebar === 'reports'"
-          [color]="colors[0]"
-          (onClick)="toggleSidebar('reports', colors[0])"
-        />
-        <navigation-component
-          label="usuarios"
-          [icon]="User"
-          [active]="activeSidebar === 'users'"
-          [color]="colors[1]"
-          (onClick)="toggleSidebar('users', colors[1])"
-        />
-        <navigation-component
-          label="config..."
-          [icon]="Settings"
-          [active]="activeSidebar === 'settings'"
-          [color]="colors[2]"
-          (onClick)="toggleSidebar('settings', colors[2])"
-        />
+        @for(item of navItems; track item.id) {
+        <div
+          class="flex flex-col gap-2 justify-center items-center rounded-lg w-full cursor-pointer z-10"
+          (click)="handleItemClick(item)"
+        >
+          <fa-icon
+            [icon]="getIcon(item.icon)"
+            class="w-12 h-12 rounded-xl text-gray-400 transition-colors flex justify-center items-center"
+            [ngStyle]="{
+              'background-color':
+                item.id === activeItemId
+                  ? item.color + '2a'
+                  : item.color + '0a',
+              color: item.color
+            }"
+          >
+            ></fa-icon
+          >
+          <p
+            class="text-xs uppercase transition-colors text-gray-500 overflow-hidden whitespace-nowrap text-center w-[70%]"
+            style="text-overflow: ellipsis;"
+          >
+            {{ item.name }}
+          </p>
+        </div>
+        }
       </div>
 
+      @if(activeItem?.children?.length) {
       <div
-        class="transition-all duration-300 overflow-hidden dark:bg-dark"
-        [class.w-0]="!activeSidebar"
-        [class.w-64]="activeSidebar"
+        class="w-64 bg-white dark:bg-dark-background border-r border-gray-100 dark:border-gray-900 p-4 relative z-20"
       >
-        <app-sidebar-menu
-          *ngIf="activeSidebar === 'reports'"
-          [items]="navItemsReportes[0].children"
-          [color]="currentColorClass"
-        ></app-sidebar-menu>
-        <app-sidebar-menu
-          *ngIf="activeSidebar === 'users'"
-          [items]="navItemsGestion"
-          [color]="currentColorClass"
-        ></app-sidebar-menu>
-        <app-sidebar-menu
-          *ngIf="activeSidebar === 'settings'"
-          [items]="navItemsConfiguraciones[0].children"
-          [color]="currentColorClass"
-        ></app-sidebar-menu>
+        <h3 class="text-lg text-gray-500 mb-4">Opciones</h3>
+        <div class="flex flex-col gap-2">
+          @for(child of activeItem.children; track child.id) {
+          <div
+            class="flex items-center gap-2 p-2 rounded-xl cursor-pointer transition-colors"
+            (click)="handleChildClick(child)"
+            [ngStyle]="{
+              'background-color':
+                child.id === activeChildId
+                  ? activeItem.color + '1a'
+                  : childHovered === child.id
+                  ? activeItem.color + '2a'
+                  : 'transparent',
+              color: activeItem.color
+            }"
+            (mouseenter)="childHovered = child.id"
+            (mouseleave)="childHovered = null"
+          >
+            <fa-icon
+              [icon]="getIcon(child.icon)"
+              [ngStyle]="{ color: activeItem.color }"
+            ></fa-icon>
+            <span class="text-sm">{{ child.name }}</span>
+          </div>
+          }
+        </div>
       </div>
+      }
     </nav>
   `,
 })
-export class NavComponent {
-  readonly Chart = ChartColumnDecreasing;
-  readonly User = UserRound;
-  readonly Settings = Settings;
-  readonly colors = colors;
-  activeSidebar: 'reports' | 'users' | 'settings' | null = null;
-  currentColorClass: string = '';
-
-  toggleSidebar(type: 'reports' | 'users' | 'settings', colorClass: string) {
-    this.activeSidebar = this.activeSidebar === type ? null : type;
-    this.currentColorClass = colorClass;
+export class NavComponent implements OnInit {
+  navS = inject(ConfigService);
+  navItems: NavResponseDTO = [];
+  activeItemId: string | null = null;
+  activeItem: any = null;
+  childHovered: string | null = null;
+  activeChildId: string | null = null;
+  private router = inject(Router);
+  ngOnInit(): void {
+    this.navS.getAllNavItems().subscribe((res) => {
+      this.navItems = res;
+      console.log(this.navItems);
+    });
   }
-  readonly navItemsReportes = [
-    {
-      path: '/admin/reportes',
-      label: 'Reportes',
-      icon: ChartColumnDecreasing,
-      children: [
-        {
-          path: '/admin/dashboard/reports',
-          label: 'Gráficas',
-          icon: ChartPie,
-        },
-        {
-          path: '/admin/dashboard/exports',
-          label: 'Exportaciones',
-          icon: FileText,
-        },
-        {
-          path: '/admin/dashboard/alert',
-          label: 'Alertas',
-          icon: TriangleAlert,
-        },
-      ],
-    },
-  ];
 
-  readonly navItemsGestion = [
-    {
-      path: '/admin/usuarios',
-      label: 'Usuarios',
-      icon: UserRound,
-    },
-    {
-      path: '/admin/clientes',
-      label: 'Clientes',
-      icon: Monitor,
-    },
-  ];
-
-  readonly navItemsConfiguraciones = [
-    {
-      path: '/admin/configuraciones',
-      label: 'Configuraciones',
-      icon: Settings,
-      children: [
-        {
-          path: '/admin/configuraciones/parametros',
-          label: 'generales',
-          icon: Settings,
-        },
-        {
-          path: '/admin/configuraciones/roles',
-          label: 'Roles',
-          icon: UserRoundCog,
-        },
-        {
-          path: '/admin/configuraciones/permisos',
-          label: 'Permisos',
-          icon: UserRoundCog,
-        },
-        {
-          path: '/admin/configuraciones/auditoria',
-          label: 'Auditoría',
-          icon: ScanEye,
-        },
-      ],
-    },
-  ];
+  handleItemClick(item: any): void {
+    if (this.activeItemId === item.id) {
+      this.activeItemId = null;
+      this.activeItem = null;
+    } else {
+      this.activeItemId = item.id;
+      this.activeItem = item;
+      if (item.path && item.children?.length === 0) {
+        this.router.navigate([item.path]);
+      }
+    }
+  }
+  handleChildClick(child: any): void {
+    this.activeChildId = child.id;
+    if (child.path) {
+      this.router.navigate([child.path]);
+    }
+  }
+  getIcon(iconName: keyof IconMapping): any {
+    return iconMapping[iconName];
+  }
 }
