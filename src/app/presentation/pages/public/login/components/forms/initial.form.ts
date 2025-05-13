@@ -18,7 +18,7 @@ import { ToastService } from '@app/infraestructure/lib/toast/toast.service';
     class=" w-full flex flex-col justify-center items-center "
   >
     <title-login />
-    <app-button [type]="'submit'" (onClick)="onSubmit('google')">
+    <app-button [type]="'submit'" (onClick)="googleLogin()">
       <app-google-icon [size]="24" />
       Iniciar secíon con google
     </app-button>
@@ -67,21 +67,85 @@ export class InitialFormLogin {
   private formState = inject(FormStateService);
   private toastS = inject(ToastService);
   params: QueryParams = {};
+  googleLogin(): void {
+    const width = 500;
+    const height = 600;
+    const left = window.screen.width / 2 - width / 2;
+    const top = window.screen.height / 2 - height / 2;
 
+    const popup = window.open(
+      `http://localhost:3002/v1/api/authentication/google?display=popup`,
+      'Google Login',
+      `width=${width},height=${height},left=${left},top=${top}`
+    );
+
+    // Check popup URL changes
+    const checkPopup = setInterval(() => {
+      if (!popup || popup.closed) {
+        clearInterval(checkPopup);
+        window.removeEventListener('message', handleMessage);
+        return;
+      }
+
+      try {
+        const popupUrl = popup.location.href;
+        if (popupUrl.includes('status=')) {
+          clearInterval(checkPopup);
+
+          const urlParams = new URLSearchParams(popup.location.search);
+          const status = urlParams.get('status');
+
+          if (status === 'success') {
+            console.log(popup.location.hash);
+            const hash = popup.location.hash;
+            const token = hash.split('access_token=')[1]?.split('&')[0];
+
+            if (token) {
+              this.handleAuthSuccess(token);
+            }
+          } else {
+            const errorMessage = urlParams.get('message');
+            console.log(errorMessage);
+            this.toastS.addToast({
+              title: 'Error de autenticación',
+              description:
+                errorMessage ||
+                'No se pudo completar el inicio de sesión con Google',
+              type: 'error',
+              id: 'google-auth-error',
+            });
+          }
+
+          popup.close();
+        }
+      } catch (error) {
+        // Handle cross-origin errors silently
+      }
+    }, 1000);
+
+    const handleMessage = (event: MessageEvent) => {
+      if (event.origin === window.origin) {
+        clearInterval(checkPopup);
+        // ... rest of the message handling ...
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+  }
   onSubmit(type: string) {
     switch (type) {
       case 'google':
-        if (!this.params.client_id || !this.params.redirect_uri) {
-          this.toastS.addToast({
-            title: 'Método no disponible',
-            description:
-              'El inicio de sesión con Google no está habilitado en este momento',
-            type: 'error',
-            id: 'google-auth',
-          });
-          return;
-        }
-        this.authS.googleLogin(this.params);
+        // if (!this.params.client_id || !this.params.redirect_uri) {
+        //   this.toastS.addToast({
+        //     title: 'Método no disponible',
+        //     description:
+        //       'El inicio de sesión con Google no está habilitado en este momento',
+        //     type: 'error',
+        //     id: 'google-auth',
+        //   });
+        //   return;
+        // }
+
         break;
       case 'email':
         this.formState.toggleFormExpansion(true, 'email');
@@ -90,5 +154,9 @@ export class InitialFormLogin {
         this.formState.toggleFormExpansion(true, 'ci');
         break;
     }
+  }
+  private handleAuthSuccess(token: string) {
+    localStorage.setItem('token', token);
+    // Additional logic for successful login
   }
 }

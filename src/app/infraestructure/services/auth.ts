@@ -10,7 +10,7 @@ export class AuthService {
   private http = inject(HttpClient);
 
   googleLogin(params: { client_id?: string; redirect_uri?: string }) {
-    const ROUTE = 'user/google';
+    const ROUTE = 'google';
     const queryParams = new URLSearchParams(params).toString();
     window.location.href = `${this.URL}/${ROUTE}?${queryParams}`;
     return;
