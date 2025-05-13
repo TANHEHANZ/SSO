@@ -120,3 +120,11 @@ body {
     box-shadow: .2em -.2em 0 0 currentcolor;
   }
 }
+
+
+
+.background-pathern {
+    background: linear-gradient(to bottom, #f1edff, transparent);
+    border-radius: 1rem;
+    
+}

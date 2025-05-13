@@ -9,57 +9,82 @@ import {
 } from '@app/infraestructure/global/form-state.service';
 import { TitleLoginComponent } from '../title';
 import { ToastService } from '@app/infraestructure/lib/toast/toast.service';
+import { InputComponent } from '../../../../../shared/ui/input';
+import { CheckboxComponent } from '../../../../../shared/ui/check';
 
 @Component({
   selector: 'inital-form-login',
   template: ` <form
     #loginForm
     (submit)="$event.preventDefault()"
-    class=" w-full flex flex-col justify-center items-center "
+    class=" w-full flex flex-col justify-center items-center  h-full"
   >
     <title-login />
     <app-button [type]="'submit'" (onClick)="googleLogin()">
       <app-google-icon [size]="24" />
       Iniciar secíon con google
     </app-button>
-    <div
-      class="w-1/2 mx-auto relative flex justify-center items-center h-[0.4px] bg-gray-400 my-3"
-    >
-      <p
-        class="absolute bg-white px-2 text-xs dark:bg-slate-900 dark:text-white"
-      >
-        O
-      </p>
-    </div>
-    <app-button
+
+    <!-- <app-button
       [type]="'submit'"
       [variant]="'primary'"
       (onClick)="onSubmit('email')"
     >
       Continuar con Email y password
-    </app-button>
-    <div
-      class="w-1/2 mx-auto relative flex justify-center items-center h-[0.4px] bg-gray-400 my-3"
-    >
-      <p
-        class="absolute bg-white px-2 text-xs dark:bg-slate-900 dark:text-white"
-      >
-        O
-      </p>
+    </app-button> -->
+
+    <div class="my-8 flex flex-col gap-2">
+      <app-input [label]="'Email'" class="w-full"></app-input>
+      <app-input
+        formControlName="password"
+        [label]="'Password'"
+        [type]="'password'"
+        class="w-full"
+      ></app-input>
+      <div class="mt-2">
+        <div class="mt-2">
+          <div class="mt-2">
+            <app-checkbox id="terms">
+              Acepto los
+              <a
+                href="/terms"
+                class="text-primary-theme_orage hover:underline dark:text-primary-theme_orage/80"
+              >
+                términos y condiciones
+              </a>
+              de uso
+            </app-checkbox>
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-2">
+        <app-button variant="secondary" class=""> Registrarse </app-button>
+        <app-button variant="primary" class="w-full">
+          Iniciar sesión
+        </app-button>
+      </div>
     </div>
+
+    <!-- 
     <app-button
       [type]="'submit'"
       [variant]="'secondary'"
       (onClick)="onSubmit('ci')"
     >
       Continuar con ci y password
-    </app-button>
+    </app-button> -->
     <div class="flex gap-2 items-center justify-center mt-2 ">
       <p>Crear cuenta</p>
       <p>¿Necesitas ayuda?</p>
     </div>
   </form>`,
-  imports: [ButtonComponent, GoogleIconComponent, TitleLoginComponent],
+  imports: [
+    ButtonComponent,
+    GoogleIconComponent,
+    TitleLoginComponent,
+    InputComponent,
+    CheckboxComponent,
+  ],
 })
 export class InitialFormLogin {
   @ViewChild('loginForm') formElement!: ElementRef;

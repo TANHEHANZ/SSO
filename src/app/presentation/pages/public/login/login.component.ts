@@ -19,6 +19,9 @@ import { ButtonChangeTheme } from '../../../shared/ui/button.theme';
 import { RouteParamsService } from '@app/infraestructure/global/route-params.service';
 import { FormStateService } from '@app/infraestructure/global/form-state.service';
 import { FormContainerComponent } from './components/form-container';
+import { TitleLoginComponent } from './components/title';
+import { ButtonComponent } from '../../../shared/ui/button';
+import { GoogleIconComponent } from '../../../shared/ui/icons/google';
 
 @Component({
   selector: 'app-login',
@@ -31,26 +34,33 @@ import { FormContainerComponent } from './components/form-container';
     InformationComponent,
     ButtonChangeTheme,
     FormContainerComponent,
+    TitleLoginComponent,
+    ButtonComponent,
+    GoogleIconComponent,
   ],
   template: `
     <change-theme />
-    <main class="w-full h-screen overflow-hidden flex relative" #collapsed>
+    <main
+      class="w-full h-screen overflow-hidden flex relative bg-[#F3F5F9] justify-center items-center"
+    >
       <app-toast></app-toast>
-      <background-paths />
-      <section
-        class="flex-shrink-0 transition-all duration-500 ease-out"
-        [style.width]="'500px'"
-        #loginSection
+      <form
+        class="bg-white w-[30%] h-[70%] border-2 border-white relative rounded-3xl overflow-hidden"
       >
-        <div
-          class="flex justify-center items-center flex-col h-full p-8 w-full"
-        >
-          <form-container
-            class="w-full h-full flex justify-center items-center"
+        <div class="background-pathern h-[35%] absolute w-full p-4">
+          <img
+            src="./assets/images/logo cochabamba.png"
+            alt="Logo"
+            class="w-[60%] object-cover mx-auto"
           />
+          <title-login />
+          <app-button [type]="'submit'">
+            <app-google-icon [size]="24" />
+          </app-button>
         </div>
-      </section>
-      <information-login [params]="params" class="flex-1" />
+      </form>
+
+      <!-- <form-container class="w-full h-full flex justify-center items-center " /> -->
     </main>
   `,
   standalone: true,

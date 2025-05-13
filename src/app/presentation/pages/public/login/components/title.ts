@@ -8,11 +8,10 @@ import gsap from 'gsap';
       class="my-2 flex flex-col justify-center items-center dark:text-white"
     >
       <div class="flex text-4xl gap-2 font-normal text-center ">
-        <p id="1">Bienvenido</p>
-        <p id="2">👋</p>
+        <p id="1" class="font-medium text-gray-700">Bienvenido</p>
       </div>
       <div class="flex text-gray-500 font-light text-sm mt-2 dark:text-white">
-        <p id="3">Elige tu método preferido para iniciar sesión</p>
+        <p id="2">Elige tu método preferido para iniciar sesión</p>
       </div>
     </section>
   `,
