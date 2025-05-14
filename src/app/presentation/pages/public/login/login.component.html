@@ -21,6 +21,23 @@
     </button>
   </div>
 </app-drawer>
+<div
+  class="loading-screen fixed inset-0 bg-primary-backgraund flex items-center justify-center transform -translate-y-full z-50 border-b-2 border-gray-300"
+>
+  <div class="text-center">
+    <div class="loading-message text-2xl font-light">
+      {{ currentMessage }}
+    </div>
+    <p class="text-gray-400 text-xs">Esto puede tomar unos pocos segundos</p>
+  </div>
+  <p
+    class="absolute bottom-10 border border-primary-theme_purple-dark bg-primary-neumo p-2 rounded-full text-sm"
+  >
+    No actualice, cierre ni haga clic en el botón Atrás en esta página. Podría
+    perder sus datos.
+  </p>
+</div>
+
 <main
   class="w-full h-screen overflow-hidden flex relative bg-primary-backgraund justify-center items-center"
 >
@@ -61,7 +78,9 @@
         de uso
       </app-checkbox>
 
-      <app-button variant="primary" class=""> Iniciar seción </app-button>
+      <app-button variant="primary" class="" (onClick)="iniciar()">
+        Iniciar seción
+      </app-button>
 
       <div class="relative my-2 w-full">
         <div class="flex justify-center text-xs relative items-center w-full">

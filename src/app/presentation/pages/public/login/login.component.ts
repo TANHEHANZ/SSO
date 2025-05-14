@@ -1,6 +1,5 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { LucideAngularModule } from 'lucide-angular';
-
 import {
   FormControl,
   FormGroup,
@@ -10,7 +9,6 @@ import {
 import { CommonModule } from '@angular/common';
 import { ToastComponent } from '../../../../infraestructure/lib/toast/toast.component';
 import { ToastService } from '@app/infraestructure/lib/toast/toast.service';
-import { QueryParams } from './components/bento/1';
 import { ButtonChangeTheme } from '../../../shared/ui/button.theme';
 import { RouteParamsService } from '@app/infraestructure/global/route-params.service';
 import { FormStateService } from '@app/infraestructure/global/form-state.service';
@@ -26,6 +24,8 @@ import {
   iconMapping,
 } from '../../../shared/ui/icons/icon.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { Router } from '@angular/router';
+import gsap from 'gsap';
 @Component({
   selector: 'app-login',
   imports: [
@@ -50,6 +50,7 @@ export class LoginComponent {
   toastS = inject(ToastService);
   routeParams = inject(RouteParamsService);
   formState = inject(FormStateService);
+  private router = inject(Router);
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
@@ -57,5 +58,53 @@ export class LoginComponent {
   getIcon(iconName: keyof IconMapping): any {
     return iconMapping[iconName];
   }
-  params: QueryParams = this.routeParams.getParams();
+
+  private loadingMessages = [
+    'Preparando tu espacio de trabajo...',
+    'Cargando tus proyectos...',
+    'Configurando el dashboard...',
+    'Casi listo...',
+  ];
+  iniciar = async () => {
+    // Show loading screen
+    const tl = gsap.timeline();
+    tl.to('.loading-screen', {
+      y: 0,
+      duration: 0.8,
+      ease: 'power4.out',
+    });
+
+    let messageIndex = 0;
+    const interval = setInterval(() => {
+      if (messageIndex < this.loadingMessages.length) {
+        gsap.to('.loading-message', {
+          opacity: 0,
+          duration: 0.3,
+          onComplete: () => {
+            this.currentMessage = this.loadingMessages[messageIndex];
+            gsap.to('.loading-message', {
+              opacity: 1,
+              duration: 0.3,
+            });
+          },
+        });
+        messageIndex++;
+      }
+    }, 1500);
+
+    await new Promise((resolve) => setTimeout(resolve, 6000));
+
+    clearInterval(interval);
+
+    tl.to('.loading-screen', {
+      y: '-100%',
+      duration: 0.8,
+      ease: 'power4.in',
+      onComplete: () => {
+        this.router.navigate(['/client/dashboard']);
+      },
+    });
+  };
+
+  currentMessage: string = '';
 }

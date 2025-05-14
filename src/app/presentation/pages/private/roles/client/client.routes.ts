@@ -8,6 +8,13 @@ export const CLIENT_ROUTES: Routes = [
     component: ClientLayoutComponent,
     children: [
       {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./dashboard/client.dashboard.component').then(
+            (m) => m.ClientDashboardComponent
+          ),
+      },
+      {
         path: 'proyects',
         loadComponent: () =>
           import('./proyects/proyects.component').then(
