@@ -27,6 +27,13 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   `,
   styles: [
     `
+      :host {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+      }
       button:hover {
         background-color: var(--button-color) + '1a';
       }
@@ -46,6 +53,6 @@ export class ButtonComponent {
     disabled:opacity-50 disabled:cursor-not-allowed
     flex flex-row 
     items-center justify-center gap-2 px-[32px] py-[14px] rounded-xl
-    border
+    border w-full
   `;
 }

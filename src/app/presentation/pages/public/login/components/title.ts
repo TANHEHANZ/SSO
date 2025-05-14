@@ -5,7 +5,7 @@ import gsap from 'gsap';
   imports: [],
   template: `
     <section
-      class="my-2 flex flex-col justify-center items-center dark:text-white"
+      class="my-4 flex flex-col justify-center items-center dark:text-white"
     >
       <div class="flex text-4xl gap-2 font-normal text-center ">
         <p id="1" class="font-medium text-gray-700">Bienvenido</p>

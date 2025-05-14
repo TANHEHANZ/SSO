@@ -37,7 +37,7 @@ module.exports = {
             DEFAULT: "#4FB9A8", // 2665 C - c:66 m:0 y:42 k:0
             dark: "#00A087", // 3278 C - c:98 m:2 y:65 k:0
           },
-          backgraund: "#F6F6F8",
+          backgraund: "#F3F5F9",
           black: {
             DEFAULT: "#2C2C2C", // k:90
             light: "#4D4D4D", // k:70

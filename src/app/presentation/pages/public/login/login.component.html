@@ -1,0 +1,77 @@
+<change-theme />
+<app-toast></app-toast>
+<app-drawer title="Métodos de autenticación  ">
+  <div class="grid grid-cols-2 gap-2">
+    <button
+      class="w-full bg-white hover:bg-gray-50 shadow-xs p-4 rounded-xl flex flex-col justify-center items-center gap-3 border transition-colors"
+    >
+      <app-google-icon [size]="36" />
+      <span>Continuar con Google</span>
+    </button>
+
+    <button
+      class="w-full bg-white hover:bg-gray-50 shadow-xs p-4 rounded-xl flex flex-col justify-center items-center gap-3 border transition-colors"
+    >
+      <fa-icon
+        [icon]="getIcon('ClipboardUser')"
+        [size]="'2x'"
+        class="text-gray-400"
+      ></fa-icon>
+      <span>Continuar con CI</span>
+    </button>
+  </div>
+</app-drawer>
+<main
+  class="w-full h-screen overflow-hidden flex relative bg-primary-backgraund justify-center items-center"
+>
+  <img
+    src="./assets/images/logo cochabamba.png"
+    alt="Logo"
+    class="w-64 absolute left-4 bottom-4"
+  />
+  <form
+    [formGroup]="loginForm"
+    class="bg-white w-[30rem] h-[70%] border-2 border-white relative rounded-3xl overflow-hidden flex justify-center items-center p-4 gap-4"
+  >
+    <div class="background-pathern h-[35%] absolute w-full top-0 left-0"></div>
+    <section class="flex justify-center items-center p-4 gap-4 flex-col">
+      <title-login />
+
+      <p
+        class="bg-primary-theme_purple text-white text-xs px-2 py-1 rounded-md self-start"
+      >
+        Credenciales
+      </p>
+      <app-input [label]="'Email'" class="w-full"></app-input>
+      <app-input
+        formControlName="password"
+        [label]="'Password'"
+        [type]="'password'"
+        class="w-full"
+      ></app-input>
+
+      <app-checkbox id="terms" class="self-start">
+        Acepto los
+        <a
+          href="/terms"
+          class="text-primary-theme_purple hover:underline dark:text-primary-theme_purple/80"
+        >
+          términos y condiciones
+        </a>
+        de uso
+      </app-checkbox>
+
+      <app-button variant="primary" class=""> Iniciar seción </app-button>
+
+      <div class="relative my-2 w-full">
+        <div class="flex justify-center text-xs relative items-center w-full">
+          <span class="bg-white px-2 text-slate-500 z-10">o continúa con</span>
+          <samp class="w-full h-[0.5px] bg-gray-300 absolute"></samp>
+        </div>
+      </div>
+      <app-button variant="secondary" (click)="drawerS.open()">
+        Métodos de autenticación
+      </app-button>
+    </section>
+  </form>
+</main>
