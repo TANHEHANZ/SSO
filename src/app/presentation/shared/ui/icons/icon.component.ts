@@ -80,6 +80,12 @@ import {
   faClipboardQuestion,
   faClipboardUser,
   faFileClipboard,
+  faBars,
+  faChevronDown,
+  faList,
+  faGrip,
+  faEllipsis,
+  faEarth,
 } from '@fortawesome/free-solid-svg-icons';
 
 export const iconMapping = {
@@ -133,6 +139,7 @@ export const iconMapping = {
   Sync: faSync,
   Redo: faRedo,
   Undo: faUndo,
+  Bars: faBars,
   BatteryFull: faBatteryFull,
   BatteryHalf: faBatteryHalf,
   BatteryEmpty: faBatteryEmpty,
@@ -146,6 +153,8 @@ export const iconMapping = {
   MicrophoneSlash: faMicrophoneSlash,
   Headphones: faHeadphones,
   Desktop: faDesktop,
+  List: faList,
+  Grip: faGrip,
   Laptop: faLaptop,
   Tablet: faTablet,
   Mobile: faMobile,
@@ -163,6 +172,9 @@ export const iconMapping = {
   ClipboardList: faClipboardList,
   ClipboardQuestion: faClipboardQuestion,
   ClipboardUser: faClipboardUser,
+  ChevronDown: faChevronDown,
+  Ellipsis: faEllipsis,
+  Earth: faEarth,
 } as const;
 
 export type IconMapping = typeof iconMapping;

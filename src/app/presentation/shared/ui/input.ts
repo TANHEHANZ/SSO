@@ -14,20 +14,21 @@ import { CommonModule } from '@angular/common';
     },
   ],
   template: `
-    <div class="relative w-full">
+    <div class="relative w-full ">
       <input
         [type]="showPassword ? 'text' : type"
         [id]="id"
         [value]="value"
         (input)="onInput($event)"
         (blur)="onBlur()"
-        class="block px-2.5 pb-3.5 pt-4 w-full min-w-96 text-sm 
+        class="block px-2.5 pb-3.5 pt-4 w-full min-w-96 text-sm  
         bg-transparent rounded-lg border border-gray-300 
         appearance-none focus:outline-none focus:ring-0 
         focus:border-primary-theme_orage peer
         dark:border-gray-600 dark:text-white
         dark:focus:border-primary-theme_orage/80
-        dark:placeholder-gray-400"
+        dark:placeholder-gray-400
+        overflow-hidden  bg-white"
         [class.border-red-500]="error"
         [class.dark:border-red-500]="error"
         [class.pr-10]="type === 'password'"

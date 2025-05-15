@@ -3,22 +3,25 @@ import { RouterOutlet } from '@angular/router';
 import { Header } from '../../../../shared/components/heder/heder';
 import { ToastComponent } from '../../../../../infraestructure/lib/toast/toast.component';
 import { NavComponent } from '../../../../shared/components/nav/nav.component';
+import { TopNavComponent } from '../../../../shared/components/topNav/top.nav.component';
 
 @Component({
-  imports: [RouterOutlet, Header, ToastComponent, NavComponent],
+  imports: [
+    RouterOutlet,
+    Header,
+    ToastComponent,
+    NavComponent,
+    TopNavComponent,
+  ],
   selector: 'app-client-layout',
   template: ` <div
-    #layoutContainer
-    class="min-h-screen bg-primary-backgraund dark:bg-dark-surface  w-full transition-all duration-300  "
+    class="min-h-screen flex flex-col bg-primary-backgraund dark:bg-dark-surface"
   >
-    <!-- <app-header></app-header> -->
     <app-toast></app-toast>
+    <top-nav></top-nav>
 
-    <main class="flex flex-1 h-[calc(100vh-8dvh)]">
-      <!-- <app-nav class="h-full" /> -->
-      <div class="p-6 flex-1 overflow-auto ">
-        <router-outlet></router-outlet>
-      </div>
+    <main class="flex-1 p-6 max-w-screen-2xl w-full h-full mx-auto">
+      <router-outlet></router-outlet>
     </main>
   </div>`,
 })
