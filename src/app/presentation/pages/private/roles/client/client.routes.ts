@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { ProyectsComponent } from './proyects/proyects.component';
 import { ClientLayoutComponent } from './client.layout.compoent';
 
 export const CLIENT_ROUTES: Routes = [
@@ -15,24 +14,91 @@ export const CLIENT_ROUTES: Routes = [
           ),
       },
       {
-        path: 'proyects',
+        path: 'integraciones',
         loadComponent: () =>
-          import('./proyects/proyects.component').then(
-            (m) => m.ProyectsComponent
+          import('./integraciones/integraciones.component').then(
+            (m) => m.ClientIntegracionesComponent
           ),
       },
       {
-        path: 'usuarios',
+        path: 'logs',
         loadComponent: () =>
-          import('./users/client.users.component').then(
-            (m) => m.ClientUsersComponent
+          import('./logs/logs.component').then((m) => m.ClientLogsComponent),
+      },
+      {
+        path: 'services',
+        loadComponent: () =>
+          import('./services/services.component').then(
+            (m) => m.ClientServicesComponent
           ),
+      },
+      {
+        path: 'settings',
+        children: [
+          {
+            path: 'proyects',
+            loadComponent: () =>
+              import('./settings/proyects/proyect.component').then(
+                (m) => m.ClientProyectComponent
+              ),
+            children: [
+              {
+                path: 'workspace',
+                children: [
+                  {
+                    path: 'general',
+                    loadComponent: () =>
+                      import(
+                        './settings/proyects/workspace/general/general.component'
+                      ).then((m) => m.ClientSettingWorksaceGeneral),
+                  },
+                  {
+                    path: 'environments',
+                    loadComponent: () =>
+                      import(
+                        './settings/proyects/workspace/enviroments/enviroments.component'
+                      ).then((m) => m.ClientSettingWorksaceEnv),
+                  },
+                  {
+                    path: 'integrations',
+                    loadComponent: () =>
+                      import(
+                        './settings/proyects/workspace/integration/integration.component'
+                      ).then((m) => m.ClientSettingWorksaceIntegrations),
+                  },
+                  {
+                    path: 'tokens',
+                    loadComponent: () =>
+                      import(
+                        './settings/proyects/workspace/token/token.component'
+                      ).then((m) => m.ClientSettingWorksaceTokns),
+                  },
+
+                  {
+                    path: 'webhooks',
+                    loadComponent: () =>
+                      import(
+                        './settings/proyects/workspace/webhooks/webhook.component'
+                      ).then((m) => m.ClientSettingWorksaceWebHooks),
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            path: 'profile',
+            loadComponent: () =>
+              import('./settings/profile/profile.component').then(
+                (m) => m.ClientProfileComponent
+              ),
+          },
+        ],
       },
     ],
   },
   {
     path: '',
-    redirectTo: 'reportes',
+    redirectTo: 'dashboard',
     pathMatch: 'full',
   },
 ];

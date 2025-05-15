@@ -87,6 +87,7 @@ import {
   faEllipsis,
   faEarth,
   faLayerGroup,
+  faRocket,
 } from '@fortawesome/free-solid-svg-icons';
 
 export const iconMapping = {
@@ -177,6 +178,7 @@ export const iconMapping = {
   ChevronDown: faChevronDown,
   Ellipsis: faEllipsis,
   Earth: faEarth,
+  Roket: faRocket,
 } as const;
 
 export type IconMapping = typeof iconMapping;

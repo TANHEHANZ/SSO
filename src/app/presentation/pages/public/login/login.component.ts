@@ -101,7 +101,7 @@ export class LoginComponent {
       duration: 0.8,
       ease: 'power4.in',
       onComplete: () => {
-        this.router.navigate(['/client/proyects']);
+        this.router.navigate(['/client/integraciones']);
       },
     });
   };

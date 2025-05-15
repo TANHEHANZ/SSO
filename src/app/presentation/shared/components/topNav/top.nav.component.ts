@@ -5,11 +5,12 @@ import { ConfigService } from '@app/infraestructure/services/config.service';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconMapping, iconMapping } from '../../ui/icons/icon.component';
+import { MenuNavComponent } from './components/menu.component';
 
 @Component({
   selector: 'top-nav',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule],
+  imports: [CommonModule, FontAwesomeModule, MenuNavComponent],
   template: `
     <nav class=" w-full bg-white border-b flex flex-col items-start px-4 py-2">
       <section class="py-4 flex justify-between w-full font-light">
@@ -26,26 +27,36 @@ import { IconMapping, iconMapping } from '../../ui/icons/icon.component';
             ></fa-icon>
           </button>
 
-          <button
-            class="w-10 h-10 border rounded-full flex items-center justify-center hover:bg-gray-50"
-          >
-            <fa-icon
-              [icon]="getIcon('Bars')"
-              class="text-gray-600 text-sm"
-            ></fa-icon>
-          </button>
+          <div class="relative">
+            <button
+              (click)="isMenuOpen = !isMenuOpen"
+              class="w-10 h-10 border rounded-full flex items-center justify-center hover:bg-gray-50"
+            >
+              <fa-icon
+                [icon]="getIcon('Bars')"
+                class="text-gray-600 text-sm"
+              ></fa-icon>
+            </button>
+
+            @if (isMenuOpen) {
+            <menu-nav />
+            }
+          </div>
         </div>
       </section>
 
-      <div class="flex gap-2 ">
+      <div class="flex gap-2">
         @for (item of navItems; track item.id) {
         <div
           class="cursor-pointer relative"
           (mouseenter)="activeItem = item"
           (mouseleave)="activeItem = null"
         >
-          <div class="hover:bg-gray-100 py-1 px-2 rounded-lg ">
-            <span class="text-sm ">{{ item.name }}</span>
+          <div
+            class="hover:bg-gray-100 py-1 px-2 rounded-lg"
+            (click)="!item.children?.length && navigate(item.path)"
+          >
+            <span class="text-sm">{{ item.name }}</span>
           </div>
 
           @if (item.children?.length && activeItem === item) {
@@ -73,23 +84,60 @@ import { IconMapping, iconMapping } from '../../ui/icons/icon.component';
     </nav>
   `,
 })
-export class TopNavComponent implements OnInit {
+export class TopNavComponent {
   navS = inject(ConfigService);
+  isMenuOpen = false;
   private router = inject(Router);
-  navItems: NavResponseDTO = [];
+  navItems: NavResponseDTO = [
+    {
+      id: '1',
+      name: 'Dashboard',
+      path: '/client/dashboard',
+      icon: 'Home',
+      color: '#4B5563',
+    },
+    {
+      id: '2',
+      name: 'Integraciones',
+      path: '/client/integraciones',
+      icon: 'Layer',
+      color: '#4B5563',
+    },
+    {
+      id: '3',
+      name: 'Logs',
+      path: '/client/logs',
+      icon: 'Terminal',
+      color: '#4B5563',
+    },
+    {
+      id: '4',
+      name: 'Servicios',
+      path: '/client/services',
+      icon: 'Settings',
+      color: '#4B5563',
+    },
+    {
+      id: '5',
+      name: 'Configuraciones',
+      icon: 'Settings',
+      color: '#4B5563',
+    },
+  ];
   activeItem: any = null;
 
-  ngOnInit(): void {
-    this.navS.getAllNavItems().subscribe((res) => {
-      this.navItems = res;
-    });
-  }
+  // ngOnInit(): void {
+  //   this.navS.getAllNavItems().subscribe((res) => {
+  //     this.navItems = res;
+  //   });
+  // }
 
   getIcon(iconName: keyof IconMapping): any {
     return iconMapping[iconName];
   }
 
   navigate(path: string): void {
+    if (!path) return;
     this.router.navigate([path]);
     this.activeItem = null;
   }

@@ -19,7 +19,7 @@ interface Proyect {
 
 @Component({
   selector: 'app-proyects',
-  templateUrl: './proyects.component.html',
+  templateUrl: './services.component.html',
   styles: [
     `
       .box {
@@ -34,26 +34,10 @@ interface Proyect {
   standalone: true,
   imports: [ButtonComponent, InputComponent, CommonModule, FontAwesomeModule],
 })
-export class ProyectsComponent {
-  proyects: Proyect[] = [
-    // {
-    //   name: 'Firmas Gamc',
-    //   service: 'Autenticación',
-    //   Domains: 'https:firmagamc.dev.cochamba.bo',
-    //   method: [
-    //     {
-    //       method: 'google',
-    //     },
-    //     {
-    //       method: 'ci',
-    //     },
-    //   ],
-    //   fechaCreacion: '2024-01-15',
-    //   estado: 'ACTIVO',
-    // },
-  ];
-  @ViewChild('box1', { static: true }) box1!: ElementRef;
-  @ViewChild('box2', { static: true }) box2!: ElementRef;
+export class ClientServicesComponent {
+  proyects: Proyect[] = [];
+  @ViewChild('box1', { static: false }) box1!: ElementRef;
+  @ViewChild('box2', { static: false }) box2!: ElementRef;
   isDropdownOpen = false;
   filterOptions = ['Más recientes', 'Más antiguos', 'Por nombre'];
 
@@ -63,21 +47,24 @@ export class ProyectsComponent {
 
   private line: any;
   ngAfterViewInit() {
-    if (this.box1 && this.box2) {
-      this.line = new LeaderLine(
-        this.box1.nativeElement,
-        this.box2.nativeElement,
-        {
-          dash: { animation: true },
-          color: 'red',
-          size: 4,
-          path: 'straight',
-          endPlug: 'none',
-          startPlug: 'none',
-        } as any
-      );
-      this.line.canvas.style.zIndex = 1000;
-    }
+    setTimeout(() => {
+      if (this.box1 && this.box2) {
+        this.line = new LeaderLine(
+          this.box1.nativeElement,
+          this.box2.nativeElement,
+          {
+            dash: { len: 1, gap: 5 },
+            color: '#666',
+            size: 2,
+            path: 'grid',
+            startSocket: 'top',
+            endSocket: 'bottom',
+            startPlug: 'behind',
+            endPlug: 'arrow1',
+          }
+        );
+      }
+    }, 100);
   }
   ngOnDestroy() {
     if (this.line) {
