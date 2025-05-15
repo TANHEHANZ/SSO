@@ -6,16 +6,10 @@ import { NavComponent } from '../../../../shared/components/nav/nav.component';
 import { TopNavComponent } from '../../../../shared/components/topNav/top.nav.component';
 
 @Component({
-  imports: [
-    RouterOutlet,
-    Header,
-    ToastComponent,
-    NavComponent,
-    TopNavComponent,
-  ],
+  imports: [RouterOutlet, ToastComponent, TopNavComponent],
   selector: 'app-client-layout',
   template: ` <div
-    class="min-h-screen flex flex-col bg-primary-backgraund dark:bg-dark-surface"
+    class="min-h-screen  flex flex-col background-pathern-2 dark:bg-dark-surface"
   >
     <app-toast></app-toast>
     <top-nav></top-nav>

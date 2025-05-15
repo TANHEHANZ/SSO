@@ -2,51 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 @font-face {
-  font-family: 'Arciform';
-  src: url('/assets/fonts/ArciformFF/Arciform.otf') format('opentype');
+  font-family: "Arciform";
+  src: url("/assets/fonts/ArciformFF/Arciform.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
-
-
 @font-face {
-  font-family: 'Poppins';
-  src: url('/assets/fonts/poppins/Poppins-Regular.ttf') format('truetype');
+  font-family: "Poppins";
+  src: url("/assets/fonts/poppins/Poppins-Regular.ttf") format("truetype");
   font-weight: 100;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Poppins';
-  src: url('/assets/fonts/poppins/Poppins-Italic.ttf') format('truetype');
+  font-family: "Poppins";
+  src: url("/assets/fonts/poppins/Poppins-Italic.ttf") format("truetype");
   font-weight: normal;
   font-style: italic;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Poppins';
-  src: url('/assets/fonts/poppins/Poppins-Bold.ttf') format('truetype');
+  font-family: "Poppins";
+  src: url("/assets/fonts/poppins/Poppins-Bold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
   font-display: swap;
 }
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 
-  /* border: #FF3D00 solid 1px; */  
+  /* border: #FF3D00 solid 1px; */
 }
 body {
-
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
-
 
 .loader {
   transform: rotateZ(45deg);
@@ -56,24 +52,24 @@ body {
   height: 48px;
   color: #fff;
 }
-  .loader:before,
-  .loader:after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: inherit;
-    height: inherit;
-    border-radius: 50%;
-    transform: rotateX(70deg);
-    animation: 1s spin linear infinite;
-  }
-  .loader:after {
-    color: #FF3D00;
-    transform: rotateY(70deg);
-    animation-delay: .4s;
-  }
+.loader:before,
+.loader:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  border-radius: 50%;
+  transform: rotateX(70deg);
+  animation: 1s spin linear infinite;
+}
+.loader:after {
+  color: #ff3d00;
+  transform: rotateY(70deg);
+  animation-delay: 0.4s;
+}
 
 @keyframes rotate {
   0% {
@@ -96,35 +92,39 @@ body {
 @keyframes spin {
   0%,
   100% {
-    box-shadow: .2em 0px 0 0px currentcolor;
+    box-shadow: 0.2em 0px 0 0px currentcolor;
   }
   12% {
-    box-shadow: .2em .2em 0 0 currentcolor;
+    box-shadow: 0.2em 0.2em 0 0 currentcolor;
   }
   25% {
-    box-shadow: 0 .2em 0 0px currentcolor;
+    box-shadow: 0 0.2em 0 0px currentcolor;
   }
   37% {
-    box-shadow: -.2em .2em 0 0 currentcolor;
+    box-shadow: -0.2em 0.2em 0 0 currentcolor;
   }
   50% {
-    box-shadow: -.2em 0 0 0 currentcolor;
+    box-shadow: -0.2em 0 0 0 currentcolor;
   }
   62% {
-    box-shadow: -.2em -.2em 0 0 currentcolor;
+    box-shadow: -0.2em -0.2em 0 0 currentcolor;
   }
   75% {
-    box-shadow: 0px -.2em 0 0 currentcolor;
+    box-shadow: 0px -0.2em 0 0 currentcolor;
   }
   87% {
-    box-shadow: .2em -.2em 0 0 currentcolor;
+    box-shadow: 0.2em -0.2em 0 0 currentcolor;
   }
 }
 
-
-
 .background-pathern {
-    background: linear-gradient(to bottom, #f3f1fd, transparent);
-    border-radius: 1rem;
-    
+  background: linear-gradient(to bottom, #f3f1fd, transparent);
+  border-radius: 1rem;
+}
+
+.background-pathern-2 {
+  background-color: #f3f5f9;
+  opacity: 1;
+  background-image: radial-gradient(#482778 0.75px, #f3f5f9 0.75px);
+  background-size: 15px 15px;
 }

@@ -86,9 +86,11 @@ import {
   faGrip,
   faEllipsis,
   faEarth,
+  faLayerGroup,
 } from '@fortawesome/free-solid-svg-icons';
 
 export const iconMapping = {
+  Layer: faLayerGroup,
   Coffee: faCoffee,
   UserTie: faUserTie,
   Client: faUsers,
