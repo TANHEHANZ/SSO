@@ -3,10 +3,14 @@ import { BehaviorSubject } from 'rxjs';
 export interface Toast {
   id?: string;
   title: string;
-  type: 'success' | 'error' | 'info' | 'update' | 'delete';
+  type: 'success' | 'error' | 'info' | 'update' | 'delete' | 'warning';
   description?: string;
   duration?: number;
   action?: {
+    label: string;
+    callback: () => void;
+  };
+  cancelAction?: {
     label: string;
     callback: () => void;
   };
