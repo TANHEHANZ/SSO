@@ -41,8 +41,8 @@ import gsap from 'gsap';
       <div
         class="flex-1 flex flex-col items-center justify-center gap-4 w-full"
       >
-        @if (integrationS.currentConfig$ | async; as config) { @for (service of
-        config.services; track service.id) {
+        @if (integrationS.currentConfig$ | async; as config) { @if
+        (config.services) {
         <div
           class="border relative rounded-lg w-48 p-4 transition-all bg-white flex flex-col justify-center items-center gap-1 border-primary-theme_cian-light"
         >
@@ -51,8 +51,11 @@ import gsap from 'gsap';
           >
             Servicios
           </p>
-          <fa-icon [icon]="getIcon(service.icon)" class="inherit text-xl" />
-          <p class="text-md text-center">{{ service.name }}</p>
+          <fa-icon
+            [icon]="getIcon(config.services.icon)"
+            class="inherit text-xl"
+          />
+          <p class="text-md text-center">{{ config.services.name }}</p>
         </div>
         } }
       </div>

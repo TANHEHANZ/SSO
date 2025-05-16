@@ -7,12 +7,12 @@ import { IntegrationDTO } from '../models/integrations/integraion.response';
 })
 export class IntegrationService {
   private configurationState = new BehaviorSubject<{
-    services: IntegrationDTO[];
+    services: IntegrationDTO | null;
     config: any;
     tokens: any;
     showPanel: boolean;
   }>({
-    services: [],
+    services: null,
     config: null,
     tokens: null,
     showPanel: false,
@@ -22,31 +22,12 @@ export class IntegrationService {
 
   updateServiceConfig(service: IntegrationDTO) {
     const currentState = this.configurationState.value;
-    const existingService = currentState.services.find(
-      (s) => s.id === service.id
-    );
-
-    if (!existingService) {
-      this.configurationState.next({
-        ...currentState,
-        services: [...currentState.services, service],
-        showPanel: true,
-      });
-    } else {
-      const updatedServices = currentState.services.filter(
-        (s) => s.id !== service.id
-      );
-      this.configurationState.next({
-        ...currentState,
-        services: updatedServices,
-        showPanel:
-          updatedServices.length > 0 ||
-          currentState.config ||
-          currentState.tokens,
-      });
-    }
+    this.configurationState.next({
+      ...currentState,
+      services: service,
+      showPanel: !currentState,
+    });
   }
-
   updateConfig(config: any) {
     const currentState = this.configurationState.value;
     this.configurationState.next({
@@ -71,15 +52,11 @@ export class IntegrationService {
 
   hasChanges(): boolean {
     const currentState = this.configurationState.value;
-    return (
-      currentState.services.length > 0 ||
-      currentState.config ||
-      currentState.tokens
-    );
+    return currentState.services || currentState.config || currentState.tokens;
   }
   clearConfiguration() {
     this.configurationState.next({
-      services: [],
+      services: null,
       config: null,
       tokens: null,
       showPanel: false,
