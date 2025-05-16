@@ -11,22 +11,10 @@ import {
   standalone: true,
   imports: [CommonModule, FontAwesomeModule],
   template: `
-    <div
-      class="border rounded-lg p-4 cursor-pointer transition-all relative overflow-hidden"
-      [class.border-primary-theme_purple]="isSelected"
-      [class.hover:border-primary-theme_purple]="!isSelected"
-      (click)="onCardClick($event)"
-    >
-      <div
-        class="absolute inset-0 w-full h-full select-circle"
-        [class.active]="isSelected"
-        [style.left.px]="clickX"
-        [style.top.px]="clickY"
-      ></div>
-
+    <section class="relative">
       @if (description) {
       <div
-        class="absolute right-2 top-2 group z-10"
+        class="  absolute right-2 top-2 group z-10 "
         [class.right-10]="isSelected"
       >
         <fa-icon
@@ -34,17 +22,31 @@ import {
           class="text-gray-400 hover:text-primary-theme_orage cursor-help"
         />
         <div
-          class="invisible group-hover:visible absolute z-10 w-64 p-2 mt-2 text-sm bg-primary-theme_orage text-white rounded-lg shadow-lg right-0"
+          class=" invisible group-hover:visible absolute z-50 w-64 p-4 text-sm bg-white border border-primary-theme_orage text-primary-theme_orage-light rounded-lg shadow-lg right-0"
         >
           {{ description }}
         </div>
       </div>
-      }
 
-      <div class="relative z-10">
-        <ng-content></ng-content>
+      }
+      <div
+        class="border rounded-lg p-4 cursor-pointer transition-all relative overflow-hidden"
+        [class.border-primary-theme_purple]="isSelected"
+        [class.hover:border-primary-theme_purple]="!isSelected"
+        (click)="onCardClick($event)"
+      >
+        <div
+          class="absolute inset-0 w-full h-full select-circle"
+          [class.active]="isSelected"
+          [style.left.px]="clickX"
+          [style.top.px]="clickY"
+        ></div>
+
+        <div class="relative ">
+          <ng-content></ng-content>
+        </div>
       </div>
-    </div>
+    </section>
   `,
   styles: [
     `
