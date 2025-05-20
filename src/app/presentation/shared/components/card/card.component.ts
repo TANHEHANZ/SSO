@@ -14,7 +14,7 @@ import {
     <section class="relative">
       @if (description) {
       <div
-        class="  absolute right-2 top-2 group z-10 "
+        class="  absolute right-2 top-2 group z-30 "
         [class.right-10]="isSelected"
       >
         <fa-icon
@@ -22,7 +22,7 @@ import {
           class="text-gray-400 hover:text-primary-theme_orage cursor-help"
         />
         <div
-          class=" invisible group-hover:visible absolute z-50 w-64 p-4 text-sm bg-white border border-primary-theme_orage text-primary-theme_orage-light rounded-lg shadow-lg right-0"
+          class=" invisible group-hover:visible absolute z-50 w-64 p-4 text-sm bg-white border border-primary-theme_orage text-primary-theme_orage-light rounded-lg shadow-lg -right-10"
         >
           {{ description }}
         </div>

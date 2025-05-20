@@ -1,10 +1,17 @@
 import { z } from 'zod';
 import { typeOfInputs } from './configuration.responses';
+const MetodsSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  icon: z.string(),
+  description: z.string(),
+});
 const OptiosIntegrationServices = z.object({
   id: z.string(),
   name: z.string(),
   description: z.string(),
   icon: z.any(),
+  metods: MetodsSchema.array().optional(),
 });
 const IntegrationSchema = z.object({
   id: z.string(),

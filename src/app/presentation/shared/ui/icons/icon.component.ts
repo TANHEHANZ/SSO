@@ -89,7 +89,9 @@ import {
   faLayerGroup,
   faRocket,
   faInfoCircle,
+  faLongArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
+import { GoogleIconComponent } from './google';
 
 export const iconMapping = {
   Layer: faLayerGroup,
