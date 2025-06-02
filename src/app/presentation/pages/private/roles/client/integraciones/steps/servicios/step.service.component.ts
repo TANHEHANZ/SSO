@@ -11,7 +11,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ModalComponent } from '../../../../../../../shared/components/modal/modal.component';
 import { OptionsServicesComponent } from './options.services.component';
 import { CardComponent } from '../../../../../../../shared/components/card/card.component';
-import { LIST_SERVICE } from '@app/infraestructure/moocks/services';
 
 @Component({
   selector: 'app-services-step',
