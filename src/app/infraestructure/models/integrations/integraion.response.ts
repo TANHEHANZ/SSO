@@ -32,3 +32,5 @@ const inputsAutentication = z.object({
 export type InputsAutenticationDTO = z.infer<typeof inputsAutentication>;
 export type IntegrationDTO = z.infer<typeof IntegrationSchema>;
 export type OptiosIntegrationServicesDTO = z.infer<typeof IntegrationSchema>;
+
+//  ----------------MANEJO DE LOS SERVICIOS ------------------

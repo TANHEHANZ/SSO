@@ -30,7 +30,7 @@ import {
 
       }
       <div
-        class="border rounded-lg p-4 cursor-pointer transition-all relative overflow-hidden"
+        class="border rounded-lg p-4 cursor-pointer transition-all relative overflow-hidden min-h-40 flex justify-center items-center"
         [class.border-primary-theme_purple]="isSelected"
         [class.hover:border-primary-theme_purple]="!isSelected"
         (click)="onCardClick($event)"

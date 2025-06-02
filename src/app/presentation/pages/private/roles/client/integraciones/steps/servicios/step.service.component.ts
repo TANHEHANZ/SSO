@@ -11,6 +11,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ModalComponent } from '../../../../../../../shared/components/modal/modal.component';
 import { OptionsServicesComponent } from './options.services.component';
 import { CardComponent } from '../../../../../../../shared/components/card/card.component';
+import { LIST_SERVICE } from '@app/infraestructure/moocks/services';
 
 @Component({
   selector: 'app-services-step',
@@ -60,7 +61,6 @@ export class ClientServiceStepComponent {
   modalS = inject(ModalService);
   @ViewChild('optionsModal') optionsModal!: TemplateRef<any>;
   selectedService: IntegrationDTO | null = null;
-  // es momento de traer mediante el backend los servicios disponibles para el cliente
 
   onServiceSelect(service: IntegrationDTO) {
     this.selectedService = service;
@@ -77,75 +77,8 @@ export class ClientServiceStepComponent {
   openModal(templateRef: TemplateRef<any>) {
     this.modalS.open(templateRef);
   }
-  //   cosas del dom
+
   getIcon(iconName: keyof IconMapping): any {
     return iconMapping[iconName];
   }
-
-  services: IntegrationDTO[] = [
-    {
-      id: '1',
-      name: 'Autenticación',
-      description:
-        'Proporciona servicios de autenticación y autorización para proteger tus recursos.',
-      icon: 'ShieldAlt',
-      options: [
-        {
-          id: '1',
-          name: 'Interna',
-          description:
-            'Permite validar credenciales contra directorios internos y sistemas propios de la GAMC',
-          icon: 'ShieldAlt',
-          metods: [
-            {
-              id: '001',
-              name: 'CI',
-              icon: 'ClipboardUser',
-              description: 'Validar ci contra directorios internos',
-            },
-            {
-              id: '002',
-              icon: 'Envelope',
-              name: 'Correo',
-              description: 'Validar correo contra directorios internos',
-            },
-          ],
-        },
-        {
-          id: '2',
-          name: 'Externa',
-          description:
-            'ideal para el acceso a ciudadanos y terceros, manteniendo la seguridad y el control de acceso.',
-          icon: 'Earth',
-          metods: [
-            {
-              id: '001',
-              icon: 'UserRound',
-              name: 'Credenciales',
-              description: 'Validar credenciales mediante email y contraseña',
-            },
-            {
-              id: '002',
-              name: 'Google',
-              icon: 'google',
-              description: 'Iniciar sesión mediante Google',
-            },
-            {
-              id: '003',
-              name: 'Email',
-              icon: 'Envelope',
-              description: 'Iniciar sesión mediante Email',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: '2',
-      name: 'Validación de documentos',
-      description:
-        'Permite validar documentos que han sido firmados por jacubitus',
-      icon: 'FolderOpen',
-    },
-  ] as const;
 }

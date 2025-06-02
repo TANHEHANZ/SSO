@@ -77,7 +77,20 @@ import { GoogleIconComponent } from '../../../../../../../shared/ui/icons/google
         </div>
       </ng-template>
 
-      <ng-template> Contenido del paso 3 </ng-template>
+      <ng-template>
+        <p>Seleccionaste:</p>
+        <p class="uppercase text-xs">servicio: {{ selectedService.name }}</p>
+        <p class="">{{selectedService.description}}</p>
+        <p>metodos seleccionados</p>
+        <p>        @for (metod of selectedService.metods; track metod.id) {
+          <fa-icon [icon]="getIcon(metod.icon)" class="text-2xl"></fa-icon>
+          <p>{{metod.name}}</p>
+          <p>{{metod.description}}</p>
+        }@empty {
+
+        }
+        </p>
+      </ng-template>
     </app-stepper>
   `,
 })
@@ -93,13 +106,12 @@ export class OptionsServicesComponent {
 
   currentStep: 'service' | 'methods' = 'service';
   selectedService: any | null = null;
-  selectedMethods: any[] = [];
 
   get canProceed(): boolean {
     if (this.currentStep === 'service') {
       return !!this.selectedService;
     }
-    return this.selectedMethods.length > 0;
+    return this.selectedService.method.length > 0;
   }
 
   isItemSelected(item: OptiosIntegrationServicesDTO): boolean {
@@ -107,14 +119,14 @@ export class OptionsServicesComponent {
   }
 
   isMethodSelected(method: any): boolean {
-    return this.selectedMethods.includes(method);
+    return this.selectedService.method.includes(method);
   }
 
   get canProceedToNextStep(): boolean {
     if (this.currentStep === 'service') {
       return !!this.selectedService?.metods?.length;
     }
-    return this.selectedMethods.length > 0;
+    return this.selectedService.method.length > 0;
   }
 
   onItemSelected(event: {
@@ -133,10 +145,10 @@ export class OptionsServicesComponent {
 
   onMethodSelected(event: { value: any; isSelected: boolean }) {
     if (event.isSelected) {
-      this.selectedMethods.push(event.value);
+      this.selectedService.method.push(event.value);
     } else {
-      this.selectedMethods = this.selectedMethods.filter(
-        (m) => m !== event.value
+      this.selectedService.method = this.selectedService.method.filter(
+        (m: any) => m !== event.value
       );
     }
   }
