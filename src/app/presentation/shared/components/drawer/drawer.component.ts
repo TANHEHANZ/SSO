@@ -1,42 +1,71 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DrawerService } from '@app/infraestructure/global/drawer.service';
-
+import { PanelService } from '@app/infraestructure/services/components/panel.service';
+import { IconComponent, IconName } from '../../ui/icons/icon';
 @Component({
   selector: 'app-drawer',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, IconComponent],
   template: `
     <div
-      class="fixed bottom-0 right-0 w-1/2 h-[85dvh] rounded-lg bg-white  transform transition-transform duration-300 ease-in-out z-50 overflow-x-hidden overflow-y-auto border border-gray-300 "
-      [class.translate-x-[110%]]="!(drawerService.isOpen$ | async)"
+      *ngIf="initialized"
+      class="fixed inset-0 z-50 bg-black/30 flex justify-end transition-opacity duration-300"
+      [class.opacity-0]="!isOpen"
+      [class.pointer-events-none]="!isOpen"
+      tabindex="-1"
+      aria-modal="true"
+      role="dialog"
+      (click)="closeDrawer()"
     >
-      <div class="h-full flex flex-col">
-        <div
-          class="p-8 border-b dark:border-gray-700 flex justify-between items-center"
+      <aside
+        class="bg-white z-50 h-[96dvh] my-auto  rounded-lg w-auto min-w-[50dvw]  transition-transform duration-300 ease-in-out transform"
+        [ngClass]="isOpen ? '-translate-x-4' : 'translate-x-full'"
+        (click)="$event.stopPropagation()"
+      >
+        <header
+          class="flex items-center justify-between p-8 border-b border-gray-200"
         >
-          <h2 class="text-3xl ">{{ title }}</h2>
-          <button
-            (click)="drawerService.close()"
-            class="w-8 h-8 hover:bg-gray-200  rounded-lg"
+          <h2
+            class="text-xl my-4 font-medium flex gap-4 self-start  justify-center items-center text-balance"
           >
-            ✕
-          </button>
-        </div>
-        <div class="flex-1 overflow-y-auto p-4">
-          <ng-content></ng-content>
-        </div>
-      </div>
-    </div>
+            <p
+              class="w-12 h-12 rounded-md text-primary-theme_purple grid content-center text-center border border-primary-theme_purple/50"
+            >
+              <app-icon *ngIf="icon" [name]="icon"></app-icon>
+            </p>
 
-    <div
-      *ngIf="drawerService.isOpen$ | async"
-      class="fixed inset-0   transition-opacity z-20"
-      (click)="drawerService.close()"
-    ></div>
+            {{ title }}
+          </h2>
+          <button
+            class=" w-12 h-12 rounded-lg flex justify-center items-center  text-xl bg-violet-200 hover:bg-primary-theme_purple hover:text-white transition-all duration-300 ease-in-out "
+            (click)="closeDrawer()"
+            aria-label="Cerrar drawer"
+          >
+            <app-icon name="close"></app-icon>
+          </button>
+        </header>
+        <section class="p-8">
+          <ng-content></ng-content>
+        </section>
+      </aside>
+    </div>
   `,
 })
 export class DrawerComponent {
-  @Input() title: string = '';
-  drawerService = inject(DrawerService);
+  @Input() title = '';
+  @Input() icon: IconName | null = null;
+  panelService = inject(PanelService);
+  isOpen = false;
+  initialized = false;
+
+  constructor() {
+    this.panelService.drawerState$.subscribe((state) => {
+      this.isOpen = state;
+      this.initialized = true;
+    });
+  }
+
+  closeDrawer() {
+    this.panelService.closeDrawer();
+  }
 }

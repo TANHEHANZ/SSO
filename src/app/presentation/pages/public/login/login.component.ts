@@ -66,7 +66,6 @@ export class LoginComponent {
     'Casi listo...',
   ];
   iniciar = async () => {
-    // Show loading screen
     const tl = gsap.timeline();
     tl.to('.loading-screen', {
       y: 0,
@@ -101,7 +100,7 @@ export class LoginComponent {
       duration: 0.8,
       ease: 'power4.in',
       onComplete: () => {
-        this.router.navigate(['/client/integraciones']);
+        this.router.navigate(['dashboard']);
       },
     });
   };

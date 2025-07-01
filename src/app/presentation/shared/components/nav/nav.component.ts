@@ -11,6 +11,7 @@ import { ColorService } from '@app/infraestructure/global/colors.service';
   standalone: true,
   imports: [CommonModule, FontAwesomeModule],
   template: `
+    <!-- DEPRECADO -->
     <nav class="flex h-full relative">
       <div
         class="w-[100px] bg-white dark:bg-dark-background border-r border-gray-100 dark:border-gray-900 flex flex-col justify-start items-center gap-2 overflow-hidden pt-4"
