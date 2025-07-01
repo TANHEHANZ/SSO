@@ -7,17 +7,10 @@ export const routes: Routes = [
     component: LoginComponent,
   },
   {
-    path: 'admin',
+    path: 'dashboard',
     loadChildren: () =>
-      import('./presentation/pages/private/roles/admin/admin.routes').then(
-        (m) => m.ADMIN_ROUTES
-      ),
-  },
-  {
-    path: 'client',
-    loadChildren: () =>
-      import('./presentation/pages/private/roles/client/client.routes').then(
-        (m) => m.CLIENT_ROUTES
+      import('./presentation/pages/private/private.routes').then(
+        (m) => m.PRIVATE_ROUTES
       ),
   },
 ];
