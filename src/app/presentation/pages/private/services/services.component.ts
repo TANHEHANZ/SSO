@@ -15,9 +15,7 @@ import { FormService } from './components/form.component';
         title="Configuración de cuenta de usuario"
         [icon]="'settings'"
       >
-        <ng-container *ngIf="drawerS.drawerState$ | async">
-          <service-form />
-        </ng-container>
+        <service-form />
       </app-drawer>
       <service-list />
     </section>

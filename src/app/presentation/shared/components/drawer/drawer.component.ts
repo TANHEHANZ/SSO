@@ -44,7 +44,7 @@ import { IconComponent, IconName } from '../../ui/icons/icon';
             <app-icon name="close"></app-icon>
           </button>
         </header>
-        <section class="p-8">
+        <section class="p-8 bg-primary-theme_orage-light">
           <ng-content></ng-content>
         </section>
       </aside>
